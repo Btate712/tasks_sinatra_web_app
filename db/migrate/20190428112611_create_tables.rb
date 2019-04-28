@@ -21,6 +21,7 @@ class CreateTables < ActiveRecord::Migration[5.2]
       t.string :email
       t.integer :manager_id
       t.string :name
+      t.boolean :administrator
     end
   end
 end

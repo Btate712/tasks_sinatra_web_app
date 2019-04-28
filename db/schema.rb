@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 2019_04_28_112611) do
     t.string "email"
     t.integer "manager_id"
     t.string "name"
+    t.boolean "administrator"
   end
 
 end

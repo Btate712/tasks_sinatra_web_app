@@ -1,0 +1,24 @@
+<h2>Please enter the following information for the new user:</h2>
+<form method="POST" action="/users/new">
+  <p>
+    <label for="name">Full Name:</label>
+    <input type="text" name="user[name]" id="name" />
+  </p>
+  <p>
+    <label for="username">Requested User Name:</label>
+    <input type="text" name="user[username]" id="username" />
+  </p>
+  <p>
+    <label for="email">Email:</label>
+    <input type="email" name="user[email]" id="email" />
+  </p>
+  <p>
+    <label for="supervisor_name">Supervisor's Name:</label>
+    <input type="text" name="supervisor_name" id="supervisor_name" />
+  </p>
+  <p>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" />
+  </p>
+  <input type="submit" value="Create User">
+</form>
