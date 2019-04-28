@@ -24,9 +24,10 @@ describe "Homepage" do
 end
 
 describe "Signup Page" do
+  params = {}
   before do
-    User.create(:username => "duplicate", :email => "whatever@wherever.com",
-    :password => "blah")
+    User.create(:username => "duplicate", :name => "Bob Tate",
+    :email => "whatever@wherever.com", :password => "blah")
   end
 
   it 'loads' do
@@ -50,18 +51,8 @@ describe "Signup Page" do
     end
   end
 
-  it "directs user to the login page" do
-    params = {
-      :name => "John Doe",
-      :email => "random@domain.com"
-      :password => "unsafe_password"
-    }
-    post '/users/new', params
-    expect(last_response.location).to include("/login")
-  end
-
   it "does not let a user sign up without a username" do
-    params = {
+    params[:user] = {
       :username => "",
       :email => "whatever@wherever.com",
       :password => "blah"
@@ -71,7 +62,7 @@ describe "Signup Page" do
   end
 
   it "does not let a user sign up without an email address" do
-    params = {
+    params[:user] = {
       :username => "A Name",
       :email => "",
       :password => "blah"
@@ -81,7 +72,7 @@ describe "Signup Page" do
   end
 
   it "does not let a user sign up without a password" do
-    params = {
+    params[:user] = {
       :username => "A Name",
       :email => "whatever@wherever.com",
       :password => ""
@@ -91,7 +82,7 @@ describe "Signup Page" do
   end
 
   it "does not let a user sign up if username is in use" do
-    params = {
+    params[:user] = {
       :username => "duplicate",
       :email => "whatever@wherever.com",
       :password => "blah"
@@ -99,4 +90,52 @@ describe "Signup Page" do
     post '/users/new', params
     expect(last_response.body).to include("That username is already in use, Please try again")
   end
+
+  it "creates a new user and directs user to the login page" do
+    params[:user] = {
+      :name => "John Doe",
+      :username => "j_dizzle",
+      :email => "random@domain.com",
+      :password => "unsafe_password"
+    }
+    params[:supervisor_name] = "Unique Name"
+    post '/users/new', params
+    expect(last_response.location).to include("/login")
+    expect(User.last.name).to eq("John Doe")
+  end
+
+  it "updates data if user already exists in system as a placeholder for someone else's supervisor" do
+    User.new(name: "Fake Name", password: "temp", username: "***Placeholder***")
+    params[:user] = {
+      name: "Fake Name", password: "whatever", username: "***Placeholder***"
+    }
+    params[:supervisor_name] = "Unique Name"
+    post '/users/new', params
+    expect(User.find { |user| user.name == "Fake Name" }.supervisor.name).to eq("Unique Name")
+  end
+end
+
+describe 'Login' do
+  before do
+    User.create(username: "Real user", password: "Real Password")
+  end
+
+  it "prompts for a username and password" do
+    get '/login'
+    expect(last_response.body).to include("User Name")
+    expect(last_response.body).to include("Password")
+  end
+
+  it "communicates the login failure and returns to login page if the login fails" do
+    params = { username: "Real user", password: "Not the right password" }
+    post '/login', params
+    expect(last_response.body).to include("Login failed.  Please try again.")
+  end
+
+  it "logs the user in and redirects to '/tasks/:username' if login information is valid" do
+    params = { username: "Real user", password: "Real Password" }
+    post '/login', params
+    expect(last_response.body).to include("You are logged in as Real user")
+  end
+
 end

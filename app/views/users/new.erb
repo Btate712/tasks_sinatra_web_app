@@ -1,3 +1,4 @@
+<% if @invalid_entry_message %><%= @invalid_entry_message %><% end %>
 <h2>Please enter the following information for the new user:</h2>
 <form method="POST" action="/users/new">
   <p>
@@ -18,7 +19,7 @@
   </p>
   <p>
     <label for="password">Password:</label>
-    <input type="password" name="password" id="password" />
+    <input type="password" name="user[password]" id="password" />
   </p>
   <input type="submit" value="Create User">
 </form>

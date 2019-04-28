@@ -19,7 +19,7 @@ class CreateTables < ActiveRecord::Migration[5.2]
       t.string :password_digest
       t.string :username
       t.string :email
-      t.integer :manager_id
+      t.integer :supervisor_id
       t.string :name
       t.boolean :administrator
     end
