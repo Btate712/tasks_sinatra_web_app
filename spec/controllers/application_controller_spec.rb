@@ -138,5 +138,11 @@ describe 'Login' do
     follow_redirect!
     expect(last_response.body).to include("You are logged in as Real user")
   end
+end
 
+describe 'Logout' do
+  it 'redirects to the signup / log in (index) page upon logout' do
+    get '/logout'
+    expect(last_response.body).to include("You must be logged in to use the app.")
+  end
 end
