@@ -12,6 +12,7 @@ class CreateTables < ActiveRecord::Migration[5.2]
       t.integer :creator_id
       t.integer :owner_id
       t.date :due_date
+      t.boolean :completed
     end
 
     create_table :users do |t|

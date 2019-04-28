@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_04_28_112611) do
     t.integer "creator_id"
     t.integer "owner_id"
     t.date "due_date"
+    t.boolean "completed"
   end
 
   create_table "users", force: :cascade do |t|
