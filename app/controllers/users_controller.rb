@@ -2,6 +2,7 @@ class UsersController < Sinatra::Base
   configure do
     set :public_folder, 'public'
     set :views, 'app/views'
+    enable :sessions
   end
 
   get '/users/new' do
@@ -40,7 +41,6 @@ class UsersController < Sinatra::Base
         user = User.all.find { |u| u.name == user_hash[:name] }
         user_hash.each { |key, value| user[key] = value }
         user.save
-        binding.pry
       else
       # => If not, create new user
         user = User.create(user_hash)

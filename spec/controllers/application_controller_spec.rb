@@ -135,6 +135,7 @@ describe 'Login' do
   it "logs the user in and redirects to '/tasks/:username' if login information is valid" do
     params = { username: "Real user", password: "Real Password" }
     post '/login', params
+    follow_redirect!
     expect(last_response.body).to include("You are logged in as Real user")
   end
 
