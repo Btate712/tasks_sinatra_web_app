@@ -3,7 +3,7 @@ class CreateTables < ActiveRecord::Migration[5.2]
     create_table :notes do |t|
       t.string :content
       t.integer :task_id
-      t.integer :author_id
+      t.integer :user_id
     end
 
     create_table :tasks do |t|

@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 2019_04_28_112611) do
   create_table "notes", force: :cascade do |t|
     t.string "content"
     t.integer "task_id"
-    t.integer "author_id"
+    t.integer "user_id"
   end
 
   create_table "tasks", force: :cascade do |t|

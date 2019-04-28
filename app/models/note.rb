@@ -1,3 +1,4 @@
 class Note < ActiveRecord::Base
-  belongs_to :task_id
+  belongs_to :task
+  belongs_to :user
 end
