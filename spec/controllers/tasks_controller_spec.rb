@@ -9,14 +9,15 @@ describe "New Task" do
 
   it 'redirects a user who is not logged in to the login page' do
     get '/logout'
-    visit '/tasks/new'
-    expect(last_response.body).to include("You must be logged in to use the app.")
+    post '/tasks/new'
+    follow_redirect!
+    expect(last_response.body).to include("Please enter your credentials")
   end
 
   it 'displays a form with appropriate inputs for creating a task' do
     params = { username: "boss", password: "boss" }
     post '/login', params
-    visit '/tasks/new'
+    get '/tasks/new'
     expect(last_response.body).to include("Short Description")
     expect(last_response.body).to include("Long Description")
     expect(last_response.body).to include("Due Date")
@@ -24,20 +25,26 @@ describe "New Task" do
   end
 
   it 'does not create a task without an owner' do
+    params = { username: "boss", password: "boss" }
+    post '/login', params
     params = { short_description: "task 1", long_description: "task one"}
-    post '/task/new', params
+    post '/tasks/new', params
     expect(last_response.body).to include("Every task must have an owner.")
   end
 
   it 'does not create a task without a short description' do
+    params = { username: "boss", password: "boss" }
+    post '/login', params
     params = { assign_to: "worker", long_description: "task one"}
-    post '/task/new', params
+    post '/tasks/new', params
     expect(last_response.body).to include("Every task must have a short description.")
   end
 
   it 'does not allow a task to be assigned to an owener that is not in the system' do
+    params = { username: "boss", password: "boss" }
+    post '/login', params
     params = { assign_to: "not in system", short_description: "This shouldn't work" }
-    post '/task/new', params
+    post '/tasks/new', params
     expect(last_response.body).to include("is not a registered user")
   end
 
