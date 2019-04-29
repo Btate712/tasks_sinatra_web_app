@@ -34,6 +34,18 @@ class TasksController < Sinatra::Base
     end
   end
 
+  get '/tasks/:id/edit' do
+    if !logged_in?
+      redirect '/login'
+    else
+      @user = current_user
+      @task = Task.find(params[:id])
+      @users = User.all
+
+      erb :'/tasks/edit'
+    end
+  end
+
   post '/tasks/new' do
     @failure_message = false
     if !logged_in?

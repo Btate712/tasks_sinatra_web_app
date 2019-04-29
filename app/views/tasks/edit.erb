@@ -1,0 +1,27 @@
+<h1>Edit task:</h1>
+<% if @faliure_message %>
+  <h1><%= @failure_message %></h1>
+<% end %>
+<form method="POST" action="/tasks/<%= @task.id %>/edit">
+  <input type="hidden" id="hidden" name="_method" value="PATCH" />
+  <p>
+    <label for="short_description">Short Description:</label>
+    <input type="text" name="short_description" id="short_description"
+      value="<%= @task.short_description %>" />
+  </p>
+  <p>
+    <label for="long_description">Long Description:</label>
+    <textarea name="long_description" id="long_description">
+      <%= @task.long_description %>
+    </textarea>
+  </p>
+  <p>
+    <label for="due_date">Due Date:</label>
+    <input type="date" name="due_date" id="due_date" value="<%= @task.due_date %>"/>
+  </p>
+  <p>
+    <label for="assign_to">Assign to:</label>
+    <input type="text" name="assign_to" id="assign_to" value="<%= @users.find(@task.user_id) %>"/>
+  </p>
+  <input type="submit" value="Create Task" />
+</form>
