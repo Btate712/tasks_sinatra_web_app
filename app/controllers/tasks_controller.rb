@@ -5,14 +5,33 @@ class TasksController < Sinatra::Base
     enable :sessions
   end
 
-  get '/tasks/:slug' do
-    @user = User.find_by_slug(params[:slug])
-
-    erb :'/tasks/index'
+  get '/tasks/new' do
+    if !logged_in?
+      redirect '/login'
+    else
+      @user = current_user
+      erb :'/tasks/new'
+    end
   end
 
-  get '/tasks/new' do
-    erb :'/tasks/new'
+  get '/tasks/:id' do
+    if !logged_in?
+      redirect '/login'
+    else
+      @user = current_user
+      @task = Task.find(params[:id])
+      erb :'/tasks/show'
+    end
+  end
+
+  get '/tasks/users/:slug' do
+    if !logged_in?
+      redirect '/login'
+    else
+      @user = current_user
+
+      erb :'/tasks/index'
+    end
   end
 
   post '/tasks/new' do
@@ -27,7 +46,7 @@ class TasksController < Sinatra::Base
       @failure_message = "#{params[:assign_to]} is not a registered user."
     end
     assignee = User.find_by(:name => params[:assign_to])
-    if !current_user.can_assign_to(assignee)
+    if !current_user.can_assign_to?(assignee)
       @failure_message = "You can only assign tasks to yourself or to subordinates"
     end
     if @failure_message
@@ -45,8 +64,14 @@ class TasksController < Sinatra::Base
     end
   end
 
-  get 'tasks/:id' do
-    binding.pry
+  post '/tasks/:id/delete' do
+    if !logged_in?
+      redirect '/login'
+    else
+      Task.find(params[:id]).destroy
+      @user = current_user
+      erb :'/tasks/index'
+    end
   end
 
   helpers do

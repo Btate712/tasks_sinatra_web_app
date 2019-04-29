@@ -27,7 +27,7 @@ class ApplicationController < Sinatra::Base
     user = User.find_by(:username => params[:username])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect "/tasks/#{user.slug}"
+      redirect "/tasks/users/#{user.slug}"
     else
       @login_error = true
       erb :login

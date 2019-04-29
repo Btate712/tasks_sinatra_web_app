@@ -1,1 +1,12 @@
 <h2>You are logged in as <%= @user.username %></h2>
+<h3>Owned Tasks:</h3>
+<% @user.owned_tasks.each do |task| %>
+  <p><a href="/tasks/<%= task.id %>"><%= task.short_description %></a></p>
+<% end %>
+<h3>Created Tasks:</h3>
+<% @user.created_tasks.each do |task| %>
+  <p><a href="/tasks/<%= task.id %>"><%= task.short_description %></a></p>
+<% end %>
+<form method="GET" action='/tasks/new'>
+  <input type="submit" value="New Task" />
+</form>

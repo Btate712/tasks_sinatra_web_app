@@ -14,7 +14,8 @@ class User < ActiveRecord::Base
 
   def can_assign_to?(other_user)
     #check to see if other_user is a subordinate
-    self.subordinates.include?(other_user) || self.subordinates.any? { |user| user.can_assign_to?(other_user) }
+    self.subordinates.include?(other_user) || self == other_user ||
+      self.subordinates.any? { |user| user.can_assign_to?(other_user) }
   end
 
   def self.find_by_slug(slug)

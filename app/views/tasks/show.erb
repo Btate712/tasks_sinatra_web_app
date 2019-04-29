@@ -1,0 +1,12 @@
+<h1>Task #<%= @task.id %></h1>
+<p><%= @task.short_description %></p>
+<p><%= @task.long_description %></p>
+<p>Due Date: <%= @task.due_date %></p>
+<p>Owner: <%= @task.owner.name %></p>
+<p>Created by: <%= @task.creator.name %></p>
+<form method="GET" action="/tasks/edit">
+  <input type="submit" value="Edit Task" />
+</form>
+<form method="POST" action="/tasks/<%= @task.id %>/delete">
+  <input type="submit" value="Delete Task" />
+</form>
