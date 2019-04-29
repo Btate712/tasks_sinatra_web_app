@@ -1,9 +1,4 @@
-class UsersController < Sinatra::Base
-  configure do
-    set :public_folder, 'public'
-    set :views, 'app/views'
-    enable :sessions
-  end
+class UsersController < ApplicationController
 
   get '/users/new' do
     erb :'users/new'

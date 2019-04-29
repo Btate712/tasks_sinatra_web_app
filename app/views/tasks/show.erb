@@ -4,7 +4,7 @@
 <p>Due Date: <%= @task.due_date %></p>
 <p>Owner: <%= @task.owner.name %></p>
 <p>Created by: <%= @task.creator.name %></p>
-<form method="GET" action="/tasks/edit">
+<form method="GET" action="/tasks/<%= @task.id %>/edit">
   <input type="submit" value="Edit Task" />
 </form>
 <form method="POST" action="/tasks/<%= @task.id %>/delete">

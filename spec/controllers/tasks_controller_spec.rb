@@ -54,7 +54,8 @@ describe "New Task" do
     params = {}
     params = { short_description: "Task for subordinate", assign_to: "worker" }
     post '/tasks/new', params
-    expect(last_response.body).to include("Task assigned successfully")
+    follow_redirect!
+    expect(last_response.body).to include("Task #")
   end
 
   it 'prevents assigning a task to a user who is not subordinate' do
