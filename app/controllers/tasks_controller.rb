@@ -10,4 +10,12 @@ class TasksController < Sinatra::Base
 
     erb :'/tasks/index'
   end
+
+  get '/tasks/new' do
+    erb :'/tasks/new'
+  end
+
+  post '/tasks/new' do
+    binding.pry
+  end
 end
