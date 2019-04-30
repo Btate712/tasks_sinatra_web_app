@@ -54,13 +54,16 @@ class NotesController < ApplicationController
     end
   end
 
-  get '/notes/:id/delete' do
+  post '/notes/:id/delete' do
     if !logged_in?
       redirect '/login'
     else
       #perform route function
       @note = Note.find(params[:id])
+      @task = @note.task
       @note.destroy
+
+      erb :'/tasks/show'
     end
   end
 end
