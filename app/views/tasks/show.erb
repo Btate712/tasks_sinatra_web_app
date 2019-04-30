@@ -4,6 +4,16 @@
 <p>Due Date: <%= @task.due_date %></p>
 <p>Owner: <%= @task.owner.name %></p>
 <p>Created by: <%= @task.creator.name %></p>
+<p>Notes:</p>
+<% if @task.notes.empty? %>
+  <p>None</p>
+<% else %>
+  <ul>
+  <% @task.notes.each do |note| %>
+    <li><%= note.content %></li>
+  <% end %>
+  </ul>
+<% end %>
 <form method="GET" action="/tasks/<%= @task.id %>/edit">
   <input type="submit" value="Edit Task" />
 </form>
@@ -12,4 +22,7 @@
 </form>
 <form method="GET" action="/tasks/users/index">
   <input type="submit" value="Back to Task List" />
+</form>
+<form method="GET" action="/notes/<%= @task.id %>/new">
+  <input type="submit" value="Add Note" />
 </form>
