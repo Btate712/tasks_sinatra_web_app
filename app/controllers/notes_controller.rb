@@ -1,6 +1,6 @@
 class NotesController < ApplicationController
 
-  get '/notes/:task_id/new' do
+  get '/notes/task/:task_id/new' do
     if !logged_in?
       redirect '/login'
     else

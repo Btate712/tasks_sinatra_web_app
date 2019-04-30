@@ -10,7 +10,7 @@
 <% else %>
   <ul>
   <% @task.notes.each do |note| %>
-    <li><%= note.content %></li>
+    <li><a href="/notes/<%= note.id %>"><%= note.content %></a></li>
   <% end %>
   </ul>
 <% end %>
@@ -23,6 +23,6 @@
 <form method="GET" action="/tasks/users/index">
   <input type="submit" value="Back to Task List" />
 </form>
-<form method="GET" action="/notes/<%= @task.id %>/new">
+<form method="GET" action="/notes/task/<%= @task.id %>/new">
   <input type="submit" value="Add Note" />
 </form>
