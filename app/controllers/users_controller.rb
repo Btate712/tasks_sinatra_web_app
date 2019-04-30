@@ -46,8 +46,19 @@ class UsersController < ApplicationController
     @user = User.find_by_slug(params[:slug])
     supervisor_id = @user.supervisor_id
     @boss = supervisor_id == nil ? "no-one" : User.find(supervisor_id).name
+    @current_user = current_user
 
     erb :'users/show'
+  end
+
+  post '/users/:id/delete' do
+    if current_user.administrator?
+      user = User.find(params[:id])
+      user.subordinates.each { |subordinate| subordinate.supervisor_id = nil }
+      user.destroy
+    end
+
+    redirect '/users/index'
   end
 
   def user_validation_error(user_hash)

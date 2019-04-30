@@ -16,6 +16,10 @@ class User < ActiveRecord::Base
       self.subordinates.any? { |user| user.can_assign_to?(other_user) }
   end
 
+  def is_administrator?
+    self.administrator
+  end
+  
   def self.find_by_slug(slug)
     self.all.find { |user| user.slug == slug }
   end
