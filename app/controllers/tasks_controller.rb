@@ -9,38 +9,6 @@ class TasksController < ApplicationController
     end
   end
 
-  get '/tasks/:id' do
-    if !logged_in?
-      redirect '/login'
-    else
-      @user = current_user
-      @task = Task.find(params[:id])
-      erb :'/tasks/show'
-    end
-  end
-
-  get '/tasks/users/:slug' do
-    if !logged_in?
-      redirect '/login'
-    else
-      @user = current_user
-
-      erb :'/tasks/index'
-    end
-  end
-
-  get '/tasks/:id/edit' do
-    if !logged_in?
-      redirect '/login'
-    else
-      @user = current_user
-      @task = Task.find(params[:id])
-      @users = User.all
-
-      erb :"/tasks/edit"
-    end
-  end
-
   post '/tasks/new' do
     @failure_message = false
     if !logged_in?
@@ -70,13 +38,23 @@ class TasksController < ApplicationController
     end
   end
 
-  post '/tasks/:id/delete' do
+  get '/tasks/users/:slug' do
     if !logged_in?
       redirect '/login'
     else
-      Task.find(params[:id]).destroy
       @user = current_user
+
       erb :'/tasks/index'
+    end
+  end
+
+  get '/tasks/:id' do
+    if !logged_in?
+      redirect '/login'
+    else
+      @user = current_user
+      @task = Task.find(params[:id])
+      erb :'/tasks/show'
     end
   end
 
@@ -112,5 +90,25 @@ class TasksController < ApplicationController
     end
   end
 
+  get '/tasks/:id/edit' do
+    if !logged_in?
+      redirect '/login'
+    else
+      @user = current_user
+      @task = Task.find(params[:id])
+      @users = User.all
 
+      erb :"/tasks/edit"
+    end
+  end
+
+  post '/tasks/:id/delete' do
+    if !logged_in?
+      redirect '/login'
+    else
+      Task.find(params[:id]).destroy
+      @user = current_user
+      erb :'/tasks/index'
+    end
+  end
 end
