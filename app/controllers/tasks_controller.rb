@@ -45,6 +45,7 @@ class TasksController < ApplicationController
       @user = current_user
 
       erb :'/tasks/index'
+
     end
   end
 
