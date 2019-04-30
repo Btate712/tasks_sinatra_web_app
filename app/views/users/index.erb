@@ -1,0 +1,10 @@
+<h1>System Users:</h1>
+<ul>
+  <% @users.each do |user| %>
+    <% if user.username != "***Placeholder***" %>
+      <li><a href="/users/<%= user.slug %>">
+      <%= user.name %></a> (<%= user.username %>)
+      </li>
+    <% end %>
+  <% end %>
+</ul>

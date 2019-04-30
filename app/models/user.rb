@@ -6,8 +6,6 @@ class User < ActiveRecord::Base
   belongs_to :supervisor, class_name: "User"
   has_secure_password
 
-  # User instances cannot be saved without a password attribute being assinged
-
   def slug
     self.username.downcase.split(" ").join("-")
   end

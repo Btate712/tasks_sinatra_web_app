@@ -20,7 +20,7 @@ class ApplicationController < Sinatra::Base
     if logged_in?
       session[:user_id] = nil
     end
-    redirect '/index'
+    redirect'/'
   end
 
   post '/login' do
@@ -43,16 +43,5 @@ class ApplicationController < Sinatra::Base
       User.find(session[:user_id])
     end
 
-    def is_existing_supervisor?(name)
-        !!User.all.find { |user| user.supervisor_id != nil && user.supervisor.name == name }
-    end
-
-    def in_use?(username)
-      !!User.all.find { |user| user.username == username }
-    end
-
-    def exists_as_placeholder?(name)
-      !!User.all.find { |user| user.name == name }
-    end
   end
 end
