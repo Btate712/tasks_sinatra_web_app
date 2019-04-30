@@ -13,6 +13,10 @@ class NotesController < ApplicationController
     #create new note using input from params hash
     if !logged_in?
       redirect '/login'
+    elsif params[:content] == ""
+      @failure_message = "Notes must have content. Please try again."
+      @task_id = params[:task_id]
+      erb :'/notes/new'
     else
       #perform route function
       note = Note.new
