@@ -44,17 +44,27 @@ class NotesController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      #perform route function
+      @note = Note.find(params[:id])
+      erb :'notes/edit'
     end
   end
 
   patch '/notes/:id/edit' do
     if !logged_in?
       redirect '/login'
+    elsif params[:content] == ""
+      @failure_message = "Notes must have content. Please try again."
+      @task_id = params[:task_id]
+      erb :"/notes/#{params[:id]}/edit"
     else
       #perform route function
-      @note = Note.find(params[:id])
-      erb :'notes/edit'
+      note = Note.find(params[:id])
+      note.content = params[:content]
+      note.task_id = params[:task_id]
+      note.user = current_user
+      note.save
+
+      redirect "/tasks/#{params[:task_id]}"
     end
   end
 
