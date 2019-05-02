@@ -1,39 +1,20 @@
 class UsersController < ApplicationController
 
   get '/users/new' do
+    @users = User.all
     erb :'users/new'
   end
 
   post '/users/new' do
     user_hash = params[:user]
-    supervisor_name = params[:supervisor_name]
     @invalid_entry_message = user_validation_error(user_hash)
     if @invalid_entry_message   # If New User failed input data validation, send
       erb :'users/new'          # user back to login screen with error message
     else
-      # Check if supervisor inputted by user exists.  If so, update user hash with supervisor_id
-      if existing_supervisor(supervisor_name)
-        user_hash[:supervisor_id] = existing_supervisor(supervisor_name)
-      else
-        # => If not, create Supervisor as new user with placeholder data and update user hash with
-        # => newly created Supervisor's id
-        supervisor = User.create(name: params[:supervisor_name], password: "temp",
-                      username: "***Placeholder***")
-        user_hash[:supervisor_id] = supervisor.id
-      end
-      # Check if new user already exists in the system as a placeholder for a subordinate
-      if exists_as_placeholder?(user_hash[:name])
-        # => If so, update placeholder user with new user information
-        user = User.all.find { |u| u.name == user_hash[:name] }
-        user_hash.each { |key, value| user[key] = value }
-        user.save
-      else
-      # => If not, create new user
-        user = User.create(user_hash)
-      end
-      # Redirect to login page
-      redirect '/login'
+      user = User.create(user_hash)
     end
+    redirect '/login'
+
   end
 
   get '/users/index' do
@@ -51,13 +32,43 @@ class UsersController < ApplicationController
     erb :'users/show'
   end
 
+  get '/users/:id/edit' do
+    @user = User.find(params[:id])
+    @users = User.all
+
+    erb :'/users/edit'
+  end
+
+  patch '/users/:id/edit' do
+    user_hash = params[:user]
+    @invalid_entry_message = false
+    if user_hash[:email] == ""
+      @invalid_entry_message = "You must enter an email address. Please try again."
+    elsif user_hash[:name] == ""
+      @invalid_entry_message = "You must enter a name.  Please try again"
+    end
+    if @invalid_entry_message
+      @user = User.find(params[:id])
+      @users = User.all
+      erb :'/users/edit'
+    else
+      user = User.find(params[:id])
+      user.name = user_hash[:name]
+      user.email = user_hash[:email]
+      if user_hash[:supervisor_id]
+        User.find(user_hash[:supervisor_id]).subordinates << user
+      end
+      #end
+      redirect '/users/index'
+    end
+  end
+
   post '/users/:id/delete' do
     if current_user.administrator?
       user = User.find(params[:id])
-      user.subordinates.each { |subordinate| subordinate.supervisor_id = nil }
+
       user.destroy
     end
-
     redirect '/users/index'
   end
 

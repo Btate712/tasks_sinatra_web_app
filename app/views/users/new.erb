@@ -15,7 +15,11 @@
   </p>
   <p>
     <label for="supervisor_name">Supervisor's Name:</label>
-    <input type="text" name="supervisor_name" id="supervisor_name" />
+    <select name="user[supervisor_id]" id="supervisor_id">
+      <option value="<%= nil %>">Supervisor is not in system</option>
+      <% @users.each do |user| %>
+      <option value="<%= user.id %>"><%= user.name %></option>
+    </select>
   </p>
   <p>
     <label for="password">Password:</label>

@@ -1,0 +1,23 @@
+<% if @invalid_entry_message %><%= @invalid_entry_message %><% end %>
+<h2>Edit User #<%= @user.id %>:</h2>
+<form method="POST" action="/users/<%= @user.id %>/edit">
+  <input type="hidden" id="hidden" name="_method" value="PATCH" />
+  <p>
+    <label for="name">Full Name:</label>
+    <input type="text" name="user[name]" id="name" value="<%= @user.name %>" />
+  </p>
+  <p>
+    <label for="email">Email:</label>
+    <input type="email" name="user[email]" id="email" value="<%= @user.email %>" />
+  </p>
+  <p>
+    <label for="supervisor_name">Supervisor's Name:</label>
+    <select name="user[supervisor_id]" id="supervisor_id">
+      <option value="<%= nil %>">Supervisor is not in system</option>
+      <% @users.each do |user| %>
+        <option value="<%= user.id %>"><%= user.name %></option>
+      <% end %>
+    </select>
+  </p>
+  <input type="submit" value="Update User">
+</form>
