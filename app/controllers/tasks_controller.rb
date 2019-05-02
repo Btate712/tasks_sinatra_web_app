@@ -4,6 +4,7 @@ class TasksController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
+      @logged_in = logged_in?
       @user = current_user
       erb :'/tasks/new'
     end
@@ -23,6 +24,7 @@ class TasksController < ApplicationController
       @failure_message = "You can only assign tasks to yourself or to subordinates"
     end
     if @failure_message
+      @logged_in = logged_in?
       erb :'/tasks/new'
     else
       assignee = User.find_by(:name => params[:assign_to])
@@ -42,6 +44,7 @@ class TasksController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
+      @logged_in = logged_in?
       @user = current_user
 
       erb :'/tasks/index'
@@ -53,6 +56,7 @@ class TasksController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
+      @logged_in = logged_in?
       @user = current_user
       @task = Task.find(params[:id])
       erb :'/tasks/show'
@@ -73,6 +77,7 @@ class TasksController < ApplicationController
       @failure_message = "You can only assign tasks to yourself or to subordinates"
     end
     if @failure_message
+      @logged_in = logged_in?
       @users = User.all
       @task = Task.find(params[:id])
 
@@ -95,6 +100,7 @@ class TasksController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
+      @logged_in = logged_in?
       @user = current_user
       @task = Task.find(params[:id])
       @users = User.all
@@ -103,12 +109,27 @@ class TasksController < ApplicationController
     end
   end
 
+  patch "/tasks/complete" do
+    task = Task.find(params[:task].key("on"))
+    task.completed = true
+    task.owner_id = nil
+    task.save
+    binding.pry
+    redirect "tasks/users/#{current_user.slug}"
+  end
+
   post '/tasks/:id/delete' do
     if !logged_in?
       redirect '/login'
     else
-      Task.find(params[:id]).destroy
-      @user = current_user
+      task = Task.find(params[:id])
+      if task.creator = current_user
+        Task.find(params[:id]).destroy
+        @logged_in = logged_in?
+        @user = current_user
+      else
+        @failure_message = "Only the creator of a task may delete that task."
+      end
       erb :'/tasks/index'
     end
   end

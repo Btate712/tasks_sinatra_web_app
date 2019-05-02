@@ -2,7 +2,7 @@
 <p><%= @task.short_description %></p>
 <p><%= @task.long_description %></p>
 <p>Due Date: <%= @task.due_date %></p>
-<p>Owner: <%= @task.owner.name %></p>
+<p>Owner: <% if @task.owner_id != nil %><%= @task.owner.name %><% end %></p>
 <p>Created by: <%= @task.creator.name %></p>
 <p>Notes:</p>
 <% if @task.notes.empty? %>

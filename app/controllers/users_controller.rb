@@ -18,12 +18,14 @@ class UsersController < ApplicationController
   end
 
   get '/users/index' do
+    @logged_in = logged_in?
     @users = User.all
 
     erb :'users/index'
   end
 
   get '/users/:slug' do
+    @logged_in = logged_in?
     @user = User.find_by_slug(params[:slug])
     supervisor_id = @user.supervisor_id
     @boss = supervisor_id == nil ? "no-one" : User.find(supervisor_id).name
@@ -33,6 +35,7 @@ class UsersController < ApplicationController
   end
 
   get '/users/:id/edit' do
+    @logged_in = logged_in?
     @user = User.find(params[:id])
     @users = User.all
 
@@ -48,6 +51,7 @@ class UsersController < ApplicationController
       @invalid_entry_message = "You must enter a name.  Please try again"
     end
     if @invalid_entry_message
+      @logged_in = logged_in?
       @user = User.find(params[:id])
       @users = User.all
       erb :'/users/edit'
@@ -89,18 +93,4 @@ class UsersController < ApplicationController
     invalid_entry_message
   end
 
-  def existing_supervisor(name)
-    supervisor = User.all.find { |user| user.supervisor_id != nil && user.supervisor.name == name }
-    if supervisor
-      supervisor.id
-    end
-  end
-
-  def in_use?(username)
-    !!User.all.find { |user| user.username == username }
-  end
-
-  def exists_as_placeholder?(name)
-    !!User.all.find { |user| user.name == name }
-  end
 end

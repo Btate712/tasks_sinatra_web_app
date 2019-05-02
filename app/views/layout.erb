@@ -8,6 +8,10 @@
     <div class="container">
       <%= yield %>
     </div>
-
+    <% if @logged_in %>
+      <form method="GET" action="/logout">
+        <input type="submit" value="Log Out">
+      </form>
+    <% end %>
   </body>
 </html>

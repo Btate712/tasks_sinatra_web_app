@@ -4,6 +4,7 @@ class NotesController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
+      @logged_in = logged_in?
       @task_id = params[:task_id]
       erb :'/notes/new'
     end
@@ -14,6 +15,7 @@ class NotesController < ApplicationController
     if !logged_in?
       redirect '/login'
     elsif params[:content] == ""
+      @logged_in = logged_in?
       @failure_message = "Notes must have content. Please try again."
       @task_id = params[:task_id]
       erb :'/notes/new'
@@ -33,6 +35,7 @@ class NotesController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
+      @logged_in = logged_in?
       #perform route function
       @note = Note.find(params[:id])
 
@@ -44,6 +47,7 @@ class NotesController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
+      @logged_in = logged_in?
       @note = Note.find(params[:id])
       erb :'notes/edit'
     end
@@ -53,6 +57,7 @@ class NotesController < ApplicationController
     if !logged_in?
       redirect '/login'
     elsif params[:content] == ""
+      @logged_in = logged_in?
       @failure_message = "Notes must have content. Please try again."
       @task_id = params[:task_id]
       erb :"/notes/#{params[:id]}/edit"
@@ -73,6 +78,7 @@ class NotesController < ApplicationController
       redirect '/login'
     else
       #perform route function
+      @logged_in = logged_in?
       @note = Note.find(params[:id])
       @task = @note.task
       @note.destroy

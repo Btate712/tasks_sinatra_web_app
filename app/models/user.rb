@@ -19,6 +19,10 @@ class User < ActiveRecord::Base
   def is_administrator?
     self.administrator
   end
+
+  def has_supervisor?
+    true if self.supervisor_id != nil
+  end
   
   def self.find_by_slug(slug)
     self.all.find { |user| user.slug == slug }

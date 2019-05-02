@@ -1,16 +1,29 @@
 <h2>You are logged in as <%= @user.username %></h2>
+<% if @failure_message %><h1><%= @failure_message %><% end %>
 <h3>Owned Tasks:</h3>
+<form method="POST" action="/tasks/complete">
+  <input type="hidden" id="hidden" name="_method" value="PATCH" />
+<% if @user.owned_tasks.count == 0 %><p>None</p><% else %>
 <% sorted_tasks = @user.owned_tasks.sort_by { |owned_task| owned_task.due_date } %>
 <% sorted_tasks.each do |task| %>
-  <p><a href="/tasks/<%= task.id %>"><%= task.short_description %>, Due:
-    <%= task.due_date %></a></p>
-<% end %>
+  <p>
+    <% if !task.completed %>
+      <input type="checkbox" name="task[<%= task.id %>]" onclick="this.form.submit();"/>
+      <a href="/tasks/<%= task.id %>"><%= task.short_description %>, Due:
+        <%= task.due_date %></a></p>
+    <% end %>
+<% end %><% end %>
+</form>
 <h3>Created Tasks:</h3>
+<% if @user.created_tasks.count == 0 %><p>None</p><% else %>
 <% sorted_tasks = @user.created_tasks.sort_by { |created_task| created_task.due_date } %>
 <% sorted_tasks.each do |task| %>
-  <p><a href="/tasks/<%= task.id %>"><%= task.short_description %>, Due:
-    <%= task.due_date %></a></p>
-<% end %>
+  <p><a href="/tasks/<%= task.id %>">
+  <% if task.completed %><del><% end %>
+    <%= task.short_description %>
+    <% if task.completed %></del><% end %>
+    , Due: <%= task.due_date %></a></p>
+<% end %><% end %>
 <form method="GET" action='/tasks/new'>
   <input type="submit" value="New Task" />
 </form>
