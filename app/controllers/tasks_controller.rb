@@ -5,6 +5,7 @@ class TasksController < ApplicationController
       redirect '/login'
     else
       @logged_in = logged_in?
+      @users = User.all
       @user = current_user
       erb :'/tasks/new'
     end
@@ -24,7 +25,9 @@ class TasksController < ApplicationController
       @failure_message = "You can only assign tasks to yourself or to subordinates"
     end
     if @failure_message
+      @users = User.all
       @logged_in = logged_in?
+      @user = current_user
       erb :'/tasks/new'
     else
       assignee = User.find_by(:name => params[:assign_to])
@@ -63,6 +66,18 @@ class TasksController < ApplicationController
     end
   end
 
+  get '/tasks/:id/edit' do
+    if !logged_in?
+      redirect '/login'
+    else
+      @logged_in = logged_in?
+      @user = current_user
+      @task = Task.find(params[:id])
+      @users = User.all
+      erb :"/tasks/edit"
+    end
+  end
+
   patch '/tasks/:id/edit' do
     @failure_message = false
     if !logged_in?
@@ -93,19 +108,6 @@ class TasksController < ApplicationController
       task.save
 
       redirect "/tasks/#{task.id}"
-    end
-  end
-
-  get '/tasks/:id/edit' do
-    if !logged_in?
-      redirect '/login'
-    else
-      @logged_in = logged_in?
-      @user = current_user
-      @task = Task.find(params[:id])
-      @users = User.all
-
-      erb :"/tasks/edit"
     end
   end
 

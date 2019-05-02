@@ -21,7 +21,13 @@
   </p>
   <p>
     <label for="assign_to">Assign to:</label>
-    <input type="text" name="assign_to" id="assign_to" value="<%= @users.find(@task.owner_id).name %>"/>
+    <select name="assign_to" id="assign_to">
+      <% @users.each do |potential_assignee| %>
+        <% if @user.can_assign_to?(user) %>
+          <option name="<%= user.name %>"><%= pot.name %></option>
+        <% end %>
+      <% end %>
+    </select>
   </p>
   <input type="submit" value="Update Task" />
 </form>

@@ -16,9 +16,11 @@
   <p>
     <label for="supervisor_name">Supervisor's Name:</label>
     <select name="user[supervisor_id]" id="supervisor_id">
-      <option value="<%= nil %>">Supervisor is not in system</option>
-      <% @users.each do |user| %>
-      <option value="<%= user.id %>"><%= user.name %></option>
+      <% @users.each do |potential_assignee| %>
+        <% if @user.can_assign_to?(potential_assignee) %>
+          <option value="<%= user.name %>"><%= user.name %></option>
+        <% end %>
+      <% end %>
     </select>
   </p>
   <p>
