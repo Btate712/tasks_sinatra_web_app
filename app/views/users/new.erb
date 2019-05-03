@@ -1,4 +1,6 @@
-<% if @invalid_entry_message %><%= @invalid_entry_message %><% end %>
+<% if @invalid_entry_message %>
+  <h1 class="error"><%= @invalid_entry_message %></h1>
+<% end %>
 <h2>Please enter the following information for the new user:</h2>
 <form method="POST" action="/users/new">
   <p>

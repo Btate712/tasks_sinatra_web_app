@@ -10,7 +10,7 @@ gem 'sinatra'
 gem 'activerecord', :require => "active_record"
 gem 'tux'
 gem 'rake'
-gem 'sqlite3'
+gem 'sqlite3', '~> 1.3.6'
 gem 'sinatra-activerecord'
 gem 'require_all'
 gem 'shotgun'

@@ -1,6 +1,6 @@
 <h1>Create Note:</h1>
 <% if @failure_message %>
-  <h1><%= @failure_message %></h1>
+  <h1 class="error"><%= @failure_message %></h1>
 <% end %>
 <form method="POST" action="/notes/new">
   <label for="content">Content:</label>

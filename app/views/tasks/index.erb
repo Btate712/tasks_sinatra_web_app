@@ -1,5 +1,5 @@
 <h2>You are logged in as <%= @user.username %></h2>
-<% if @failure_message %><h1><%= @failure_message %><% end %>
+<% if @failure_message %><h1 class="error"><%= @failure_message %></h1><% end %>
 <h3>Owned Tasks:</h3>
 <form method="POST" action="/tasks/complete">
   <input type="hidden" id="hidden" name="_method" value="PATCH" />

@@ -1,4 +1,6 @@
-<% if @invalid_entry_message %><%= @invalid_entry_message %><% end %>
+<% if @invalid_entry_message %>
+  <h1 class="error"><%= @invalid_entry_message %></h1>
+<% end %>
 <h2>Edit User #<%= @user.id %>:</h2>
 <form method="POST" action="/users/<%= @user.id %>/edit">
   <input type="hidden" id="hidden" name="_method" value="PATCH" />

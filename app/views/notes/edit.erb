@@ -1,6 +1,6 @@
 <h1>Edit Note:</h1>
 <% if @failure_message %>
-  <h1><%= @failure_message %></h1>
+  <h1 class="error"><%= @failure_message %></h1>
 <% end %>
 <form method="POST" action="/notes/<%= @note.id %>/edit">
   <input type="hidden" id="hidden" name="_method" value="PATCH" />
