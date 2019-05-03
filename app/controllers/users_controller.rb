@@ -74,8 +74,11 @@ class UsersController < ApplicationController
         user = User.find(params[:id])
         user.name = user_hash[:name]
         user.email = user_hash[:email]
-        if user_hash[:supervisor_id]
+        if user_hash[:supervisor_id] && user_hash[:supervisor_id] != ""
           User.find(user_hash[:supervisor_id]).subordinates << user
+        else
+          user.supervisor_id = nil
+          user.save
         end
         #end
         redirect '/users/index'
