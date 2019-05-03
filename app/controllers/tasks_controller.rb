@@ -112,12 +112,16 @@ class TasksController < ApplicationController
   end
 
   patch "/tasks/complete" do
-    task = Task.find(params[:task].key("on"))
-    task.completed = true
-    task.owner_id = nil
-    task.save
-    binding.pry
-    redirect "tasks/users/#{current_user.slug}"
+    if !logged_in?
+      redirect '/login'
+    else
+      task = Task.find(params[:task].key("on"))
+      task.completed = true
+      task.owner_id = nil
+      task.save
+
+      redirect "tasks/users/#{current_user.slug}"
+    end
   end
 
   post '/tasks/:id/delete' do

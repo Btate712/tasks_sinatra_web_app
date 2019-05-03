@@ -18,62 +18,82 @@ class UsersController < ApplicationController
   end
 
   get '/users/index' do
-    @logged_in = logged_in?
-    @users = User.all
+    if !logged_in?
+      redirect '/login'
+    else
+      @logged_in = logged_in?
+      @users = User.all
 
-    erb :'users/index'
+      erb :'users/index'
+    end
   end
 
   get '/users/:slug' do
-    @logged_in = logged_in?
-    @user = User.find_by_slug(params[:slug])
-    supervisor_id = @user.supervisor_id
-    @boss = supervisor_id == nil ? "no-one" : User.find(supervisor_id).name
-    @current_user = current_user
+    if !logged_in?
+      redirect '/login'
+    else
+      @logged_in = logged_in?
+      @user = User.find_by_slug(params[:slug])
+      supervisor_id = @user.supervisor_id
+      @boss = supervisor_id == nil ? "no-one" : User.find(supervisor_id).name
+      @current_user = current_user
 
-    erb :'users/show'
+      erb :'users/show'
+    end
   end
 
   get '/users/:id/edit' do
-    @logged_in = logged_in?
-    @user = User.find(params[:id])
-    @users = User.all
-
-    erb :'/users/edit'
-  end
-
-  patch '/users/:id/edit' do
-    user_hash = params[:user]
-    @invalid_entry_message = false
-    if user_hash[:email] == ""
-      @invalid_entry_message = "You must enter an email address. Please try again."
-    elsif user_hash[:name] == ""
-      @invalid_entry_message = "You must enter a name.  Please try again"
-    end
-    if @invalid_entry_message
+    if !logged_in?
+      redirect '/login'
+    else
       @logged_in = logged_in?
       @user = User.find(params[:id])
       @users = User.all
+
       erb :'/users/edit'
+    end
+  end
+
+  patch '/users/:id/edit' do
+    if !logged_in?
+      redirect '/login'
     else
-      user = User.find(params[:id])
-      user.name = user_hash[:name]
-      user.email = user_hash[:email]
-      if user_hash[:supervisor_id]
-        User.find(user_hash[:supervisor_id]).subordinates << user
+      user_hash = params[:user]
+      @invalid_entry_message = false
+      if user_hash[:email] == ""
+        @invalid_entry_message = "You must enter an email address. Please try again."
+      elsif user_hash[:name] == ""
+        @invalid_entry_message = "You must enter a name.  Please try again"
       end
-      #end
-      redirect '/users/index'
+      if @invalid_entry_message
+        @logged_in = logged_in?
+        @user = User.find(params[:id])
+        @users = User.all
+        erb :'/users/edit'
+      else
+        user = User.find(params[:id])
+        user.name = user_hash[:name]
+        user.email = user_hash[:email]
+        if user_hash[:supervisor_id]
+          User.find(user_hash[:supervisor_id]).subordinates << user
+        end
+        #end
+        redirect '/users/index'
+      end
     end
   end
 
   post '/users/:id/delete' do
-    if current_user.administrator?
-      user = User.find(params[:id])
+    if !logged_in?
+      redirect '/login'
+    else
+      if current_user.administrator?
+        user = User.find(params[:id])
 
-      user.destroy
+        user.destroy
+      end
+      redirect '/users/index'
     end
-    redirect '/users/index'
   end
 
   def user_validation_error(user_hash)

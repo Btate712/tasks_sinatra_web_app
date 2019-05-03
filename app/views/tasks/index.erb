@@ -10,7 +10,7 @@
     <% if !task.completed %>
       <input type="checkbox" name="task[<%= task.id %>]" onclick="this.form.submit();"/>
       <a href="/tasks/<%= task.id %>"><%= task.short_description %>, Due:
-        <%= task.due_date %></a></p>
+        <%= task.due_date.month %>, <%= task.due_date.day %></a></p>
     <% end %>
 <% end %><% end %>
 </form>
