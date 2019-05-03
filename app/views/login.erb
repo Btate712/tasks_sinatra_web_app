@@ -1,13 +1,18 @@
-<% if @login_error %><h1>Login failed.  Please try again.<h1><% end %>
-<form method="POST" action="/login">
-  <h1>Please enter your credentials:</h1>
-  <p>
-    <label for="username">User Name:</label>
-    <input type="text" name="username" id="username">
-  </p>
-  <p>
-    <label for="password">Password:</label>
-    <input type="password" name="password" id="password">
-  </p>
-  <input type="submit" value="Log In" />
-</form>
+<div class="main-heading"><h1>Please enter your credentials:</h1></div>
+
+  <div class="message">
+    <% if @login_error %><h1>Login failed.  Please try again.<h1><% end %>
+  </div>
+  <div class="form">
+    <form method="POST" action="/login">
+      <p>
+        <label for="username">User Name:</label>
+        <input type="text" name="username" id="username">
+      </p>
+      <p>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password">
+      </p>
+      <input type="submit" value="Log In" />
+    </form>
+  </div>

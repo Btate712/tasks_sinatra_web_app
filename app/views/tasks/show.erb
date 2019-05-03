@@ -1,28 +1,32 @@
-<h1>Task #<%= @task.id %></h1>
-<p><%= @task.short_description %></p>
-<p><%= @task.long_description %></p>
-<p>Due Date: <%= @task.due_date %></p>
-<p>Owner: <% if @task.owner_id != nil %><%= @task.owner.name %><% end %></p>
-<p>Created by: <%= @task.creator.name %></p>
-<p>Notes:</p>
-<% if @task.notes.empty? %>
-  <p>None</p>
-<% else %>
-  <ul>
-  <% @task.notes.each do |note| %>
-    <li><a href="/notes/<%= note.id %>"><%= note.content %></a></li>
+<div class="main-heading">
+  <h1>Task #<%= @task.id %></h1>
+</div>
+<div class="content">
+  <p><%= @task.short_description %></p>
+  <p><%= @task.long_description %></p>
+  <p>Due Date: <%= @task.due_date.month %>/<%= @task.due_date.day %>/<%= @task.due_date.year %></p>
+  <p>Owner: <% if @task.owner_id != nil %><%= @task.owner.name %><% end %></p>
+  <p>Created by: <%= @task.creator.name %></p>
+  <p>Notes:</p>
+  <% if @task.notes.empty? %>
+    <p>None</p>
+  <% else %>
+    <ul>
+    <% @task.notes.each do |note| %>
+      <li><a href="/notes/<%= note.id %>"><%= note.content %></a></li>
+    <% end %>
+    </ul>
   <% end %>
-  </ul>
-<% end %>
-<form method="GET" action="/tasks/<%= @task.id %>/edit">
-  <input type="submit" value="Edit Task" />
-</form>
-<form method="POST" action="/tasks/<%= @task.id %>/delete">
-  <input type="submit" value="Delete Task" />
-</form>
-<form method="GET" action="/tasks/users/index">
-  <input type="submit" value="Back to Task List" />
-</form>
-<form method="GET" action="/notes/task/<%= @task.id %>/new">
-  <input type="submit" value="Add Note" />
-</form>
+  <form method="GET" action="/tasks/<%= @task.id %>/edit">
+    <input type="submit" value="Edit Task" />
+  </form>
+  <form method="POST" action="/tasks/<%= @task.id %>/delete">
+    <input type="submit" value="Delete Task" />
+  </form>
+  <form method="GET" action="/tasks/users/index">
+    <input type="submit" value="Back to Task List" />
+  </form>
+  <form method="GET" action="/notes/task/<%= @task.id %>/new">
+    <input type="submit" value="Add Note" />
+  </form>
+</div>

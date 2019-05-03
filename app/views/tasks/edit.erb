@@ -1,33 +1,39 @@
-<h1>Edit task:</h1>
-<% if @failure_message %>
-  <h1 class="error"><%= @failure_message %></h1>
-<% end %>
-<form method="POST" action="/tasks/<%= @task.id %>/edit">
-  <input type="hidden" id="hidden" name="_method" value="PATCH" />
-  <p>
-    <label for="short_description">Short Description:</label>
-    <input type="text" name="short_description" id="short_description"
-      value="<%= @task.short_description %>" />
-  </p>
-  <p>
-    <label for="long_description">Long Description:</label>
-    <textarea name="long_description" id="long_description">
-      <%= @task.long_description %>
-    </textarea>
-  </p>
-  <p>
-    <label for="due_date">Due Date:</label>
-    <input type="date" name="due_date" id="due_date" value="<%= @task.due_date %>"/>
-  </p>
-  <p>
-    <label for="assign_to">Assign to:</label>
-    <select name="assign_to" id="assign_to">
-      <% @users.each do |potential_assignee| %>
-        <% if @user.can_assign_to?(user) %>
-          <option name="<%= user.name %>"><%= pot.name %></option>
+<div class="main-heading">
+  <h1>Edit task:</h1>
+</div>
+<div class="message">
+  <% if @failure_message %>
+    <h1 class="error"><%= @failure_message %></h1>
+  <% end %>
+</div>
+<div class="content">
+  <form method="POST" action="/tasks/<%= @task.id %>/edit">
+    <input type="hidden" id="hidden" name="_method" value="PATCH" />
+    <p>
+      <label for="short_description">Short Description:</label>
+      <input type="text" name="short_description" id="short_description"
+        value="<%= @task.short_description %>" />
+    </p>
+    <p>
+      <label for="long_description">Long Description:</label>
+      <textarea name="long_description" id="long_description">
+        <%= @task.long_description %>
+      </textarea>
+    </p>
+    <p>
+      <label for="due_date">Due Date:</label>
+      <input type="date" name="due_date" id="due_date" value="<%= @task.due_date %>"/>
+    </p>
+    <p>
+      <label for="assign_to">Assign to:</label>
+      <select name="assign_to" id="assign_to">
+        <% @users.each do |potential_assignee| %>
+          <% if @user.can_assign_to?(user) %>
+            <option name="<%= user.name %>"><%= pot.name %></option>
+          <% end %>
         <% end %>
-      <% end %>
-    </select>
-  </p>
-  <input type="submit" value="Update Task" />
-</form>
+      </select>
+    </p>
+    <input type="submit" value="Update Task" />
+  </form>
+</div>

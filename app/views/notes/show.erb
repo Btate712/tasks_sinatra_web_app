@@ -1,11 +1,15 @@
-<h1>Note Content:</h1>
-<p><%= @note.content %></p>
-<form method="GET" action="/notes/<%= @note.id %>/edit">
-  <input type="submit" value="Edit Note" />
-</form>
-<form method="POST" action="/notes/<%= @note.id %>/delete">
-  <input type="submit" value="Delete Note" />
-</form>
-<form method="GET" action="/tasks/<%= @note.task.id %>">
-  <input type="submit" value="Back to Task" />
-</form>
+<div class="main-message">
+  <h1>Note Content:</h1>
+</div>
+<div class="content">
+  <p><%= @note.content %></p>
+  <form method="GET" action="/notes/<%= @note.id %>/edit">
+    <input type="submit" value="Edit Note" />
+  </form>
+  <form method="POST" action="/notes/<%= @note.id %>/delete">
+    <input type="submit" value="Delete Note" />
+  </form>
+  <form method="GET" action="/tasks/<%= @note.task.id %>">
+    <input type="submit" value="Back to Task" />
+  </form>
+</div>
