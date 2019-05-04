@@ -12,6 +12,7 @@ class UsersController < ApplicationController
       erb :'users/new'          # user back to login screen with error message
     else
       user = User.create(user_hash)
+      user.supervisor.subordinates << user
     end
     redirect '/login'
 
