@@ -1,7 +1,7 @@
 <div class="main-message">
   <h1>Note Content:</h1>
 </div>
-<div class="content">
+<div class="middle">
   <p><%= @note.content %></p>
   <form method="GET" action="/notes/<%= @note.id %>/edit">
     <input type="submit" value="Edit Note" />

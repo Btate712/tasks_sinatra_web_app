@@ -4,7 +4,7 @@
 <div class="message">
   <% if @failure_message %><h1 class="error"><%= @failure_message %></h1><% end %>
 </div>
-<div class="content">
+<div class="left">
   <h3>Owned Tasks:</h3>
   <form method="POST" action="/tasks/complete">
     <input type="hidden" id="hidden" name="_method" value="PATCH" />
@@ -19,6 +19,8 @@
       <% end %>
   <% end %><% end %>
   </form>
+</div>
+<div class="right">
   <h3>Created Tasks:</h3>
   <% if @user.created_tasks.count == 0 %><p>None</p><% else %>
   <% sorted_tasks = @user.created_tasks.sort_by { |created_task| created_task.due_date } %>

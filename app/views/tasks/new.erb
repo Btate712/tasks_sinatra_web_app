@@ -1,29 +1,35 @@
-<h1>Create a new task:</h1>
-<% if @failure_message %>
-  <h1 class="error"><%= @failure_message %></h1>
-<% end %>
-<form method="POST" action="/tasks/new">
-  <p>
-    <label for="short_description">Short Description:</label>
-    <input type="text" name="short_description" id="short_description" />
-  </p>
-  <p>
-    <label for="long_description">Long Description:</label>
-    <textarea name="long_description" id="long_description"></textarea>
-  </p>
-  <p>
-    <label for="due_date">Due Date:</label>
-    <input type="date" name="due_date" id="due_date" />
-  </p>
-  <p>
-    <label for="assign_to">Assign to:</label>
-    <select name="assign_to" id="assign_to">
-      <% @users.each do |user| %>
-        <% if @user.can_assign_to?(user) %>
-          <option name="<%= user.id %>"><%= user.name %></option>
+<div class="main-heading">
+  <h1>Create a new task:</h1>
+</div>
+<div class="message">
+  <% if @failure_message %>
+    <h1 class="error"><%= @failure_message %></h1>
+  <% end %>
+</div>
+<div class="middle">
+  <form method="POST" action="/tasks/new">
+    <p>
+      <label for="short_description">Short Description:</label>
+      <input type="text" name="short_description" id="short_description" />
+    </p>
+    <p>
+      <label for="long_description">Long Description:</label>
+      <textarea name="long_description" id="long_description"></textarea>
+    </p>
+    <p>
+      <label for="due_date">Due Date:</label>
+      <input type="date" name="due_date" id="due_date" />
+    </p>
+    <p>
+      <label for="assign_to">Assign to:</label>
+      <select name="assign_to" id="assign_to">
+        <% @users.each do |user| %>
+          <% if @user.can_assign_to?(user) %>
+            <option name="<%= user.id %>"><%= user.name %></option>
+          <% end %>
         <% end %>
-      <% end %>
-    </select>
-  </p>
-  <input type="submit" value="Create Task" />
-</form>
+      </select>
+    </p>
+    <input type="submit" value="Create Task" />
+  </form>
+</div>
