@@ -4,10 +4,10 @@ body {
 }
 
 .container {
-  width: 500px;
-  height: 800px;
+  width: 450px;
+  height: 550px;
   display: inline-block;
-  background-image: url("lined_paper.jpg")
+  background-image: url("lined_paper2.jpg")
 }
 
 a {
