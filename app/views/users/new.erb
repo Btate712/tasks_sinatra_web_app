@@ -17,7 +17,7 @@
   </p>
   <p>
     <label for="supervisor_name">Supervisor's Name:</label>
-    <select name="user[supervisor_id]" id="supervisor_id">
+    <select name="supervisor_name" id="supervisor_name">
       <% @users.each do |potential_assignee| %>
         <option value="<%= potential_assignee.name %>"><%= potential_assignee.name %></option>
       <% end %>

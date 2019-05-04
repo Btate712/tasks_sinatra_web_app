@@ -11,8 +11,12 @@ class UsersController < ApplicationController
     if @invalid_entry_message   # If New User failed input data validation, send
       erb :'users/new'          # user back to login screen with error message
     else
+      supervisor = User.find_by(name: params[:supervisor_name])
+      if supervisor
+        user_hash[:supervisor_id] = supervisor.id
+      end
       user = User.create(user_hash)
-      user.supervisor.subordinates << user
+
     end
     redirect '/login'
 
@@ -22,10 +26,15 @@ class UsersController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      @logged_in = logged_in?
-      @users = User.all
+      if current_user.administrator?
 
-      erb :'users/index'
+        @logged_in = logged_in?
+        @users = User.all
+
+        erb :'users/index'
+      else
+        redirect "/tasks/users/#{current_user.slug}"
+      end
     end
   end
 
@@ -47,11 +56,16 @@ class UsersController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      @logged_in = logged_in?
-      @user = User.find(params[:id])
-      @users = User.all
+      if current_user.administrator?
 
-      erb :'/users/edit'
+        @logged_in = logged_in?
+        @user = User.find(params[:id])
+        @users = User.all
+
+        erb :'/users/edit'
+      else
+        redirect "/tasks/users/#{current_user.slug}"
+      end
     end
   end
 
