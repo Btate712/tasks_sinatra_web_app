@@ -1,4 +1,8 @@
-bob = User.create(username: "btate712", password: "temp", email: "btate712@gmail.com", name: "Bob Tate")
-frank = User.create(username: "fwinter", password: "temp", email: "fwinter@gmail.com", name: "Frank Winter")
-jmike = User.create(username: "jmcondreay", password: "temp", email: "jmcondreay@gmail.com", name: "J. Mike Condreay")
-del = User.create(username: "delroy", password: "temp", email: "delroy@gmail.com", name: "Del Thomas")
+bob = User.create(username: "bob", password: "temp", email: "bob@gmail.com", name: "Bob")
+frank = User.create(username: "frank", password: "temp", email: "frank@gmail.com", name: "Frank")
+jmike = User.create(username: "jmike", password: "temp", email: "jmike@gmail.com", name: "J. Mike")
+del = User.create(username: "delroy", password: "temp", email: "delroy@gmail.com", name: "Del")
+
+del.subordinates << jmike
+jmike.subordinates << bob
+bob.subordinates << frank

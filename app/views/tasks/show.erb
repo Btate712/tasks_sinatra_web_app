@@ -17,10 +17,10 @@
     <% end %>
     </ul>
   <% end %>
-  <form method="GET" action="/tasks/<%= @task.id %>/edit">
-    <input type="submit" value="Edit Task" />
-  </form>
   <% if @task.creator == @user %>
+    <form method="GET" action="/tasks/<%= @task.id %>/edit">
+      <input type="submit" value="Edit Task" />
+    </form>
     <form method="POST" action="/tasks/<%= @task.id %>/delete">
       <input type="submit" value="Delete Task" />
     </form>

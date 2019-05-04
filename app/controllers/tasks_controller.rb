@@ -73,8 +73,13 @@ class TasksController < ApplicationController
       @logged_in = logged_in?
       @user = current_user
       @task = Task.find(params[:id])
-      @users = User.all
-      erb :"/tasks/edit"
+      if current_user == @task.creator
+        @users = User.all
+        erb :"/tasks/edit"
+      else
+        @failure_message="Tasks can only be edited by the user that created them."
+        redirect "tasks/users/#{current_user.slug}"
+      end
     end
   end
 
