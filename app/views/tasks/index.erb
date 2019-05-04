@@ -26,9 +26,8 @@
   <% sorted_tasks.each do |task| %>
     <p><a href="/tasks/<%= task.id %>">
     <% if task.completed %><del><% end %>
-      <%= task.short_description %>
-      <% if task.completed %></del><% end %>
-      , Due: <%= task.due_date.month %>/<%= task.due_date.day %>/<%= task.due_date.year %></a></p>
+    <%= task.short_description %>, Due: 
+        <%= task.due_date.month %>/<%= task.due_date.day %>/<%= task.due_date.year %></a></p>
   <% end %><% end %>
   <form method="GET" action='/tasks/new'>
     <input type="submit" value="New Task" />
