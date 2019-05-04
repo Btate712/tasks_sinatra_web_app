@@ -27,13 +27,16 @@
     <p>
       <label for="assign_to">Assign to:</label>
       <select name="assign_to" id="assign_to">
-        <% @users.each do |potential_assignee| %>
-          <% if @user.can_assign_to?(user) %>
-            <option name="<%= user.name %>"><%= pot.name %></option>
+        <% @users.sort_by { |a| a.name }.each do |potential_assignee| %>
+          <% if @user.can_assign_to?(potential_assignee) %>
+            <option name="<%= potential_assignee.id %>"><%= potential_assignee.name %></option>
           <% end %>
         <% end %>
       </select>
     </p>
     <input type="submit" value="Update Task" />
+  </form>
+  <form method="GET" action="/tasks/<%= @task.id %>">
+    <input type="submit" value="Back to Task">
   </form>
 </div>

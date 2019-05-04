@@ -129,7 +129,7 @@ class TasksController < ApplicationController
       redirect '/login'
     else
       task = Task.find(params[:id])
-      if task.creator = current_user
+      if task.creator == current_user
         Task.find(params[:id]).destroy
         @logged_in = logged_in?
         @user = current_user

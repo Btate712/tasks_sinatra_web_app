@@ -13,4 +13,7 @@
     <input type="hidden" name="task_id" value="<%= @task_id %>" readonly />
     <input type="submit" value="Create Note" />
   </form>
+  <form method="GET" action="/tasks/<%= @task_id %>">
+    <input type="submit" value="Back to Task" />
+  </form>
 </div>

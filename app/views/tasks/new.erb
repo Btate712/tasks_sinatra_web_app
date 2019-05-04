@@ -23,13 +23,16 @@
     <p>
       <label for="assign_to">Assign to:</label>
       <select name="assign_to" id="assign_to">
-        <% @users.each do |user| %>
-          <% if @user.can_assign_to?(user) %>
-            <option name="<%= user.id %>"><%= user.name %></option>
+        <% @users.sort_by { |a| a.name }.each do |potential_assignee| %>
+          <% if @user.can_assign_to?(potential_assignee) %>
+            <option name="<%= potential_assignee.id %>"><%= potential_assignee.name %></option>
           <% end %>
         <% end %>
       </select>
     </p>
     <input type="submit" value="Create Task" />
+  </form>
+  <form method="GET" action="/tasks/users/<%= @user.slug %>">
+    <input type="submit" value="Back to Task List">
   </form>
 </div>

@@ -13,16 +13,18 @@
   <% else %>
     <ul>
     <% @task.notes.each do |note| %>
-      <li><a href="/notes/<%= note.id %>"><%= note.content %></a></li>
+      <li><a href="/notes/<%= note.id %>"><%= note.content %> (<%= note.user.name %>)</a></li>
     <% end %>
     </ul>
   <% end %>
   <form method="GET" action="/tasks/<%= @task.id %>/edit">
     <input type="submit" value="Edit Task" />
   </form>
-  <form method="POST" action="/tasks/<%= @task.id %>/delete">
-    <input type="submit" value="Delete Task" />
-  </form>
+  <% if @task.creator == @user %>
+    <form method="POST" action="/tasks/<%= @task.id %>/delete">
+      <input type="submit" value="Delete Task" />
+    </form>
+  <% end %>
   <form method="GET" action="/tasks/users/index">
     <input type="submit" value="Back to Task List" />
   </form>
