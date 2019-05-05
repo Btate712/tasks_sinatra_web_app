@@ -3,11 +3,42 @@ body {
   text-align: center;
 }
 
+textarea {
+  width: 75%;
+  height: 100px;
+  background-color: #E9E4C4;
+}
+
+input {
+    background-color: #E9E4C4;
+      align: left;
+}
+
+input [type=submit] {
+  width: 100px;
+}
+
+select {
+  background-color: #E9E4C4;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.indented {
+  text-indent: 20px;
+}
+.align-left {
+  margin-left: 80px;
+  text-align: left;
+}
+
 .container {
   width: 450px;
   height: 550px;
   display: inline-block;
-  background-image: url("lined_paper2.jpg")
+  background-image: url("lined_paper.jpg")
 }
 
 a {

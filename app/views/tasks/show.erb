@@ -1,15 +1,14 @@
 <div class="main-heading">
   <h1>Task #<%= @task.id %></h1>
 </div>
-<div class="middle">
-  <p><%= @task.short_description %></p>
-  <p><%= @task.long_description %></p>
+<div class="align-left">
+  <p>Short Description: <%= @task.short_description %></p>
+  <p class="underline">Long Description:</p>
+  <p class="indented"><%= @task.long_description %></p>
   <p>Due Date: <%= @task.due_date.month %>/<%= @task.due_date.day %>/<%= @task.due_date.year %></p>
-  <p>Owner: <% if @task.owner_id != nil %><%= @task.owner.name %><% end %></p>
+  <p>Owner: <% if @task.owner_id != nil %><%= @task.owner.name %><% else %>None - Completed<% end %></p>
   <p>Created by: <%= @task.creator.name %></p>
-  <p>Notes:</p>
-  <% if @task.notes.empty? %>
-    <p>None</p>
+  <p>Notes: <% if @task.notes.empty? %>None</p>
   <% else %>
     <ul>
     <% @task.notes.each do |note| %>
@@ -17,6 +16,8 @@
     <% end %>
     </ul>
   <% end %>
+</div>
+<div class="align-left">
   <% if @task.creator == @user %>
     <form method="GET" action="/tasks/<%= @task.id %>/edit">
       <input type="submit" value="Edit Task" />

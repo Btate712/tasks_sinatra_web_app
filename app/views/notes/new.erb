@@ -6,10 +6,10 @@
     <h1 class="error"><%= @failure_message %></h1>
   <% end %>
 </div>
-<div class="middle">
+<div class="align-left" >
   <form method="POST" action="/notes/new">
-    <label for="content">Content:</label>
-    <textarea name="content" id="content"></textarea>
+    <p><label for="content">Content:</label></p>
+    <p><textarea name="content" id="content"></textarea></p>
     <input type="hidden" name="task_id" value="<%= @task_id %>" readonly />
     <input type="submit" value="Create Note" />
   </form>

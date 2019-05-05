@@ -3,7 +3,7 @@
   <% if @failure_message %><h1 class="error"><%= @failure_message %></h1><% end %>
 </div>
 
-<div class="left">
+<div class="align-left">
   <h3>Owned Tasks:</h3>
   <form method="POST" action="/tasks/complete">
     <input type="hidden" id="hidden" name="_method" value="PATCH" />
@@ -12,21 +12,22 @@
   <% sorted_tasks.each do |task| %>
     <p>
       <% if !task.completed %>
-        <input type="checkbox" name="task[<%= task.id %>]" onclick="this.form.submit();"/>
+        <input type="checkbox" name="task[<%= task.id %>]" onclick="this.form.submit();" />
         <a href="/tasks/<%= task.id %>"><%= task.short_description %>, Due:
-          <%= task.due_date.month %>/<%= task.due_date.day %>/<%= task.due_date.year %></a></p>
+          <%= task.due_date.month %>/<%= task.due_date.day %>/<%= task.due_date.year %></a>
+        </p>
       <% end %>
   <% end %><% end %>
   </form>
 </div>
-<div class="right">
+<div class="align-left">
   <h3>Created Tasks:</h3>
   <% if @user.created_tasks.count == 0 %><p>None</p><% else %>
   <% sorted_tasks = @user.created_tasks.sort_by { |created_task| created_task.due_date } %>
   <% sorted_tasks.each do |task| %>
     <p><a href="/tasks/<%= task.id %>">
     <% if task.completed %><del><% end %>
-    <%= task.short_description %>, Due: 
+    <%= task.short_description %>, Due:
         <%= task.due_date.month %>/<%= task.due_date.day %>/<%= task.due_date.year %></a></p>
   <% end %><% end %>
   <form method="GET" action='/tasks/new'>
