@@ -92,13 +92,13 @@ describe "Signup Page" do
   end
 
   it "creates a new user and directs user to the login page" do
+    params = {}
     params[:user] = {
       :name => "John Doe",
       :username => "j_dizzle",
       :email => "random@domain.com",
-      :password => "unsafe_password"
+      :password => "unsafe_password",
     }
-    params[:supervisor_name] = "Unique Name"
     post '/users/new', params
     expect(last_response.location).to include("/login")
     expect(User.last.name).to eq("John Doe")

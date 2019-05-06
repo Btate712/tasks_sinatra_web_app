@@ -2,13 +2,11 @@ class UsersController < ApplicationController
 
   get '/users/new' do
     @users = User.all
-    @current_user = current_user
     erb :'users/new'
   end
 
   post '/users/new' do
     user_hash = params[:user]
-    @current_user = current_user
     @invalid_entry_message = user_validation_error(user_hash)
     if @invalid_entry_message   # If New User failed input data validation, send
       erb :'users/new'          # user back to login screen with error message
