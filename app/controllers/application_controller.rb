@@ -47,19 +47,9 @@ class ApplicationController < Sinatra::Base
       User.find(session[:user_id])
     end
 
-    def existing_supervisor(name)
-      supervisor = User.all.find { |user| user.supervisor_id != nil && user.supervisor.name == name }
-      if supervisor
-        supervisor.id
-      end
-    end
-
     def in_use?(username)
       !!User.all.find { |user| user.username == username }
     end
 
-    def exists_as_placeholder?(name)
-      !!User.all.find { |user| user.name == name }
-    end
   end
 end

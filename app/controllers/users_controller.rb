@@ -28,7 +28,7 @@ class UsersController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      if current_user.administrator?
+      if current_user.is_administrator?
         @current_user = current_user
         @logged_in = logged_in?
         @users = User.all
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      if current_user.administrator?
+      if current_user.is_administrator?
         @current_user = current_user
         @logged_in = logged_in?
         @user = User.find(params[:id])
@@ -108,7 +108,7 @@ class UsersController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      if current_user.administrator?
+      if current_user.is_administrator?
         user = User.find(params[:id])
 
         user.destroy
