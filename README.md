@@ -1,4 +1,7 @@
 # tasks_sinatra_web_app
+
+## Overview
+
 Sinatra Portfolio Project for Flatiron School
 
 This project allows users to create and track tasks that are assigned to users.
@@ -14,3 +17,28 @@ which the task is assigned.  The task creator and task owner may be the same
 person if the user created and assigned themself the task.
 
 Users can add notes to any task to which they have access.
+
+## Installation
+
+To install and run the app, clone [this GitHub repository](https://github.com/Btate712/tasks_sinatra_web_app),
+run `bundle install`, and run the app using the command `rackup`.
+
+## Contributing
+
+When contributing to this repository, please first discuss the change you wish to make via issue,
+email, or any other method with the owners of this repository before making a change.
+
+## Pull Request Process
+
+1. Ensure any install or build dependencies are removed before the end of the layer when doing a
+   build.
+2. Update the README.md with details of changes to the interface, this includes new environment
+   variables, exposed ports, useful file locations and container parameters.
+3. Increase the version numbers in any examples files and the README.md to the new version that this
+   Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
+4. You may merge the Pull Request in once you have the sign-off of two other developers, or if you
+   do not have permission to do that, you may request the second reviewer to merge it for you.
+
+## Links
+[Video Walkthrough](https://www.youtube.com/watch?v=qJCnNi-AaMU&t=17s)
+[License](https://opensource.org/licenses/MIT)
