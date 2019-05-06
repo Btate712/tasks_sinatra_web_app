@@ -1,5 +1,5 @@
 class NotesController < ApplicationController
-
+  
   get '/notes/task/:task_id/new' do
     if !logged_in?
       redirect '/login'
@@ -12,7 +12,6 @@ class NotesController < ApplicationController
   end
 
   post '/notes/new' do
-    #create new note using input from params hash
     if !logged_in?
       redirect '/login'
     elsif params[:content] == ""
@@ -22,7 +21,6 @@ class NotesController < ApplicationController
       @task_id = params[:task_id]
       erb :'/notes/new'
     else
-      #perform route function
       note = Note.new
       note.content = params[:content]
       note.task_id = params[:task_id]
