@@ -14,8 +14,8 @@ input {
       align: left;
 }
 
-input [type=submit] {
-  width: 100px;
+input[type=submit] {
+  width: 150px;
 }
 
 select {

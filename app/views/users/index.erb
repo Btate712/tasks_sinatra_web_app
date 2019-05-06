@@ -6,3 +6,6 @@
     </li>
   <% end %>
 </ul>
+<form class="align-left" method="GET" action="/tasks/users/<%= current_user.slug %>">
+  <input type="submit" value="Back to Task List">
+</form>
