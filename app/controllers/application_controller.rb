@@ -49,5 +49,11 @@ class ApplicationController < Sinatra::Base
       !!User.all.find { |user| user.username == username }
     end
 
+    def capitalize(input_string)
+      output = input_string.chars
+      output[0] = output[0].upcase
+      output.join
+    end
+
   end
 end
