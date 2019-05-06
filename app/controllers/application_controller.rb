@@ -21,9 +21,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/logout' do
-    if logged_in?
-      session[:user_id] = nil
-    end
+    session[:user_id] = nil
     redirect'/'
   end
 

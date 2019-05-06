@@ -104,15 +104,6 @@ describe "Signup Page" do
     expect(User.last.name).to eq("John Doe")
   end
 
-  it "updates data if user already exists in system as a placeholder for someone else's supervisor" do
-    User.new(name: "Fake Name", password: "temp", username: "***Placeholder***")
-    params[:user] = {
-      name: "Fake Name", password: "whatever", username: "***Placeholder***"
-    }
-    params[:supervisor_name] = "Unique Name"
-    post '/users/new', params
-    expect(User.find { |user| user.name == "Fake Name" }.supervisor.name).to eq("Unique Name")
-  end
 end
 
 describe 'Login' do
@@ -143,6 +134,7 @@ end
 describe 'Logout' do
   it 'redirects to the signup / log in (index) page upon logout' do
     get '/logout'
+    follow_redirect!
     expect(last_response.body).to include("You must be logged in to use the app.")
   end
 end
