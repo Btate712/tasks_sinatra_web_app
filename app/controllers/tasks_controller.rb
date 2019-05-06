@@ -6,7 +6,7 @@ class TasksController < ApplicationController
     else
       @logged_in = logged_in?
       @users = User.all
-      @user = current_user
+      @current_user = current_user
       erb :'/tasks/new'
     end
   end
@@ -27,7 +27,7 @@ class TasksController < ApplicationController
     if @failure_message
       @users = User.all
       @logged_in = logged_in?
-      @user = current_user
+      @current_user = current_user
       erb :'/tasks/new'
     else
       assignee = User.find_by(:name => params[:assign_to])
@@ -48,7 +48,7 @@ class TasksController < ApplicationController
       redirect '/login'
     else
       @logged_in = logged_in?
-      @user = current_user
+      @current_user = current_user
 
       erb :'/tasks/index'
 
@@ -60,7 +60,7 @@ class TasksController < ApplicationController
       redirect '/login'
     else
       @logged_in = logged_in?
-      @user = current_user
+      @current_user = current_user
       @task = Task.find(params[:id])
       erb :'/tasks/show'
     end
@@ -75,10 +75,11 @@ class TasksController < ApplicationController
       @task = Task.find(params[:id])
       if current_user == @task.creator
         @users = User.all
+        @current_user = current_user
         erb :"/tasks/edit"
       else
         @failure_message="Tasks can only be edited by the user that created them."
-        redirect "tasks/users/#{current_user.slug}"
+        erb :"tasks/users/#{current_user.slug}"
       end
     end
   end
@@ -100,6 +101,7 @@ class TasksController < ApplicationController
       @logged_in = logged_in?
       @users = User.all
       @task = Task.find(params[:id])
+      @current_user = current_user
 
       erb :"/tasks/edit"
     else
@@ -137,7 +139,7 @@ class TasksController < ApplicationController
       if task.creator == current_user
         Task.find(params[:id]).destroy
         @logged_in = logged_in?
-        @user = current_user
+        @current_user = current_user
       else
         @failure_message = "Only the creator of a task may delete that task."
       end

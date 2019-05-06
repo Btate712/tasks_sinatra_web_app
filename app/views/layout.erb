@@ -13,6 +13,11 @@
         <form class="align-left" method="GET" action="/logout">
           <input type="submit" value="Log Out">
         </form>
+        <% if @current_user.administrator %>
+          <form class="align-left" method="GET" action="/users/index">
+            <input type="submit" value="Users Index">
+          </form>
+        <% end %>
       <% end %>
     </div>
 

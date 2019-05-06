@@ -24,7 +24,7 @@
       <label for="assign_to">Assign to:</label>
       <select name="assign_to" id="assign_to">
         <% @users.sort_by { |a| a.name }.each do |potential_assignee| %>
-          <% if @user.can_assign_to?(potential_assignee) %>
+          <% if @current_user.can_assign_to?(potential_assignee) %>
             <option name="<%= potential_assignee.id %>"><%= potential_assignee.name %></option>
           <% end %>
         <% end %>
@@ -32,7 +32,7 @@
     </p>
     <input type="submit" value="Create Task" />
   </form>
-  <form method="GET" action="/tasks/users/<%= @user.slug %>">
+  <form method="GET" action="/tasks/users/<%= @current_user.slug %>">
     <input type="submit" value="Back to Task List">
   </form>
 </div>

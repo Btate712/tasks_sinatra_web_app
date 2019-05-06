@@ -2,11 +2,13 @@ class UsersController < ApplicationController
 
   get '/users/new' do
     @users = User.all
+    @current_user = current_user
     erb :'users/new'
   end
 
   post '/users/new' do
     user_hash = params[:user]
+    @current_user = current_user
     @invalid_entry_message = user_validation_error(user_hash)
     if @invalid_entry_message   # If New User failed input data validation, send
       erb :'users/new'          # user back to login screen with error message
@@ -27,7 +29,7 @@ class UsersController < ApplicationController
       redirect '/login'
     else
       if current_user.administrator?
-
+        @current_user = current_user
         @logged_in = logged_in?
         @users = User.all
 
@@ -57,7 +59,7 @@ class UsersController < ApplicationController
       redirect '/login'
     else
       if current_user.administrator?
-
+        @current_user = current_user
         @logged_in = logged_in?
         @user = User.find(params[:id])
         @users = User.all
@@ -81,6 +83,7 @@ class UsersController < ApplicationController
         @invalid_entry_message = "You must enter a name.  Please try again"
       end
       if @invalid_entry_message
+        @current_user = current_user
         @logged_in = logged_in?
         @user = User.find(params[:id])
         @users = User.all

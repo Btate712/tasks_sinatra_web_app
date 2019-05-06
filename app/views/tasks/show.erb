@@ -18,7 +18,7 @@
   <% end %>
 </div>
 <div class="align-left">
-  <% if @task.creator == @user %>
+  <% if @task.creator == @current_user %>
     <form method="GET" action="/tasks/<%= @task.id %>/edit">
       <input type="submit" value="Edit Task" />
     </form>
