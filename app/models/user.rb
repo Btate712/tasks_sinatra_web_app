@@ -6,6 +6,10 @@ class User < ActiveRecord::Base
   belongs_to :supervisor, class_name: "User"
   has_secure_password
 
+  validates :username, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true
+  validates :password, presence: true
+  
   def slug
     self.username.downcase.split(" ").join("-")
   end
@@ -23,7 +27,7 @@ class User < ActiveRecord::Base
   def has_supervisor?
     true if self.supervisor_id != nil
   end
-  
+
   def self.find_by_slug(slug)
     self.all.find { |user| user.slug == slug }
   end

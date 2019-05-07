@@ -7,19 +7,20 @@ class UsersController < ApplicationController
 
   post '/users/new' do
     user_hash = params[:user]
-    @invalid_entry_message = user_validation_error(user_hash)
-    if @invalid_entry_message   # If New User failed input data validation, send
-      erb :'users/new'          # user back to login screen with error message
-    else
-      supervisor = User.find_by(name: params[:supervisor_name])
-      if supervisor
-        user_hash[:supervisor_id] = supervisor.id
-      end
-      user = User.create(user_hash)
-
+    supervisor = User.find_by(name: params[:supervisor_name])
+    if supervisor
+      user_hash[:supervisor_id] = supervisor.id
     end
-    redirect '/login'
-
+    user = User.new(user_hash)
+    if user.valid?
+      user.save
+      redirect '/login'
+    else
+      errors = user.errors.messages
+      @users = User.all
+      @invalid_entry_message = validation_messages(errors)
+      erb :'users/new'
+    end
   end
 
   get '/users/index' do
@@ -73,31 +74,26 @@ class UsersController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      user_hash = params[:user]
-      @invalid_entry_message = false
-      if user_hash[:email] == ""
-        @invalid_entry_message = "You must enter an email address. Please try again."
-      elsif user_hash[:name] == ""
-        @invalid_entry_message = "You must enter a name.  Please try again"
+      user = User.find(params[:id])
+      user.name = user_hash[:name]
+      user.email = user_hash[:email]
+      if user_hash[:supervisor_id] && user_hash[:supervisor_id] != ""
+        User.find(user_hash[:supervisor_id]).subordinates << user
+      else
+        user.supervisor_id = nil
       end
-      if @invalid_entry_message
+      if user.valid?
+        user.save
+        redirect '/users/index'
+      else
+        @invalid_entry_message = false
+        errors = user.errors.messages
+        @invalid_entry_message = validation_messages(error)
         @current_user = current_user
         @logged_in = logged_in?
         @user = User.find(params[:id])
         @users = User.all
         erb :'/users/edit'
-      else
-        user = User.find(params[:id])
-        user.name = user_hash[:name]
-        user.email = user_hash[:email]
-        if user_hash[:supervisor_id] && user_hash[:supervisor_id] != ""
-          User.find(user_hash[:supervisor_id]).subordinates << user
-        else
-          user.supervisor_id = nil
-          user.save
-        end
-        #end
-        redirect '/users/index'
       end
     end
   end
@@ -114,22 +110,4 @@ class UsersController < ApplicationController
       redirect '/users/index'
     end
   end
-
-  def user_validation_error(user_hash)
-
-    invalid_entry_message = false
-    # Check if all fields are filled in.  If not, redirect to new user page with error message
-    if user_hash[:username] == ""
-      invalid_entry_message = "You must enter a username. Please try again."
-    elsif user_hash[:email] == ""
-      invalid_entry_message = "You must enter an email address. Please try again."
-    elsif !user_hash[:password] || user_hash[:password] == ""
-      invalid_entry_message = "You must enter a password. Please try again."
-    # Check if username is already in use.  If so, redirect to new user page with error message
-    elsif in_use?(user_hash[:username])
-      invalid_entry_message = "That username is already in use, Please try again."
-    end
-    invalid_entry_message
-  end
-
 end
