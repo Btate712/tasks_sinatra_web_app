@@ -43,9 +43,7 @@ class TasksController < ApplicationController
     else
       @logged_in = logged_in?
       @current_user = current_user
-
       erb :'/tasks/index'
-
     end
   end
 
@@ -115,7 +113,6 @@ class TasksController < ApplicationController
       task.completed = true
       task.owner_id = nil
       task.save
-
       redirect "tasks/users/#{current_user.slug}"
     end
   end
