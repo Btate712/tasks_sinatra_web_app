@@ -51,7 +51,7 @@ class ApplicationController < Sinatra::Base
 
     def capitalize(input_string)
       output = input_string.chars
-      output[0] = output[0].upcase
+      output.first = output.first.upcase
       output.join
     end
 
