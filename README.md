@@ -24,8 +24,8 @@ To install and run the app:
 - Clone [this GitHub repository](https://github.com/Btate712/tasks_sinatra_web_app),
 - Run `bundle install`
 - Set a `SESSION_SECRET` environment variable by typing `export SESSION_SECRET="(your secret here)"`
-  replacing "your secret here" with the desired secret value.  A randomly generated
-  value is recommended.
+  in the terminal/bash, replacing "your secret here" with the desired secret value.  A randomly
+  generated value is recommended.
 - run the app using the command `rackup`.
 
 ## Contributing
