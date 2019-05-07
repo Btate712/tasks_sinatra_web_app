@@ -111,7 +111,6 @@ class TasksController < ApplicationController
     else
       task = Task.find(params[:task].key("on"))
       task.completed = true
-      task.owner_id = nil
       task.save
       redirect "tasks/users/#{current_user.slug}"
     end
