@@ -15,20 +15,6 @@ class TasksController < ApplicationController
     @failure_message = false
     if !logged_in?
       redirect '/login'
-    elsif !params[:short_description] || params[:short_description] == ""
-      @failure_message = "Every task must have a short description."
-    elsif !params[:assign_to] || params[:assign_to] == ""
-      @failure_message = "Every task must have an owner."
-    elsif !User.all.any? { |user| user.name == params[:assign_to] }
-      @failure_message = "#{params[:assign_to]} is not a registered user."
-    elsif !current_user.can_assign_to?(assignee = User.find_by(:name => params[:assign_to]))
-      @failure_message = "You can only assign tasks to yourself or to subordinates"
-    end
-    if @failure_message
-      @users = User.all
-      @logged_in = logged_in?
-      @current_user = current_user
-      erb :'/tasks/new'
     else
       assignee = User.find_by(:name => params[:assign_to])
       task = Task.new
@@ -37,9 +23,17 @@ class TasksController < ApplicationController
       task.due_date = params[:due_date] if params[:due_date]
       task.owner_id = assignee.id
       task.creator_id = current_user.id
-      task.save
-
-      redirect "/tasks/#{task.id}"
+      if task.valid?
+        task.save
+        redirect "/tasks/#{task.id}"
+      else
+        errors = task.errors.messages
+        @failure_message = validation_messages(errors)
+        @users = User.all
+        @logged_in = logged_in?
+        @current_user = current_user
+        erb :'/tasks/new'
+      end
     end
   end
 
@@ -88,22 +82,6 @@ class TasksController < ApplicationController
     @failure_message = false
     if !logged_in?
       redirect '/login'
-    elsif !params[:short_description] || params[:short_description] == ""
-      @failure_message = "Every task must have a short_description."
-    elsif !params[:assign_to] || params[:assign_to] == ""
-      @failure_message = "Every task must have an owner."
-    elsif !User.all.any? { |user| user.name == params[:assign_to] }
-      @failure_message = "#{params[:assign_to]} is not a registered user."
-    elsif !current_user.can_assign_to?(User.find_by(:name => params[:assign_to]))
-      @failure_message = "You can only assign tasks to yourself or to subordinates"
-    end
-    if @failure_message
-      @logged_in = logged_in?
-      @users = User.all
-      @task = Task.find(params[:id])
-      @current_user = current_user
-
-      erb :"/tasks/edit"
     else
       assignee = User.find_by(:name => params[:assign_to])
       task = Task.find(params[:id])
@@ -112,9 +90,20 @@ class TasksController < ApplicationController
       task.due_date = params[:due_date] if params[:due_date]
       task.owner_id = assignee.id
       task.creator_id = current_user.id
-      task.save
 
-      redirect "/tasks/#{task.id}"
+      if task.valid?
+        task.save
+        redirect "/tasks/#{task.id}"
+      else
+        errors = task.errors.messages
+        @failure_message = validation_messages(errors)
+        @logged_in = logged_in?
+        @users = User.all
+        @task = Task.find(params[:id])
+        @current_user = current_user
+
+        erb :"/tasks/edit"
+      end
     end
   end
 

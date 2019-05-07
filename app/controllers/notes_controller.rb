@@ -23,10 +23,8 @@ class NotesController < ApplicationController
         note.save
         redirect "/tasks/#{params[:task_id]}"
       else
-        @failure_message = ""
-        note.errors.messages.each do |key, message|
-          @failure_message += (capitalize(key.to_s) + " " + message[0] + ".\n")
-        end
+        errors = note.errors.messages
+        @failure_message = validation_messages(errors)
         @current_user = current_user
         @logged_in = logged_in?
         @task_id = params[:task_id]

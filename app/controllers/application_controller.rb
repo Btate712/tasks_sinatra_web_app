@@ -55,5 +55,13 @@ class ApplicationController < Sinatra::Base
       output.join
     end
 
+    def validation_messages(errors)
+      failure_message = ""
+      errors.each do |field, message|
+        field = field.to_s.split('_').map { |word| word.capitalize }.join (" ")
+        failure_message << (field + " " + message.first + ".\n")
+      end
+    failure_message
+    end
   end
 end

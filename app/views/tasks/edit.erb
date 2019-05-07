@@ -3,7 +3,7 @@
 </div>
 <div class="middle">
   <% if @failure_message %>
-    <h1 class="error"><%= @failure_message %></h1>
+    <h3 class="error"><%= @failure_message %></h3>
   <% end %>
 </div>
 <div class="align-left">
@@ -28,7 +28,7 @@
       <label for="assign_to">Assign to:</label>
       <select name="assign_to" id="assign_to">
         <% @users.sort_by { |a| a.name }.each do |potential_assignee| %>
-          <% if @user.can_assign_to?(potential_assignee) %>
+          <% if @current_user.can_assign_to?(potential_assignee) %>
             <option name="<%= potential_assignee.id %>"><%= potential_assignee.name %></option>
           <% end %>
         <% end %>
