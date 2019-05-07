@@ -22,7 +22,7 @@ class ApplicationController < Sinatra::Base
 
   get '/logout' do
     session[:user_id] = nil
-    redirect'/'
+    redirect '/'
   end
 
   post '/login' do
@@ -46,7 +46,7 @@ class ApplicationController < Sinatra::Base
     end
 
     def in_use?(username)
-      !!User.all.find { |user| user.username == username }
+      !!User.find_by(username: username) 
     end
 
     def capitalize(input_string)
