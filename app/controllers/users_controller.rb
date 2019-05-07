@@ -71,6 +71,7 @@ class UsersController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
+      user_hash = params[:user]
       user = User.find(params[:id])
       user.name = user_hash[:name]
       user.email = user_hash[:email]
@@ -84,7 +85,7 @@ class UsersController < ApplicationController
         redirect '/users/index'
       else
         errors = user.errors.messages
-        @invalid_entry_message = validation_messages(error)
+        @invalid_entry_message = validation_messages(errors)
         @current_user = current_user
         @logged_in = logged_in?
         @user = User.find(params[:id])
