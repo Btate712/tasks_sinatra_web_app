@@ -17,8 +17,8 @@ class UsersController < ApplicationController
       redirect '/login'
     else
       errors = user.errors.messages
-      @users = User.all
       @invalid_entry_message = validation_messages(errors)
+      @users = User.all
       erb :'users/new'
     end
   end
@@ -31,7 +31,6 @@ class UsersController < ApplicationController
         @current_user = current_user
         @logged_in = logged_in?
         @users = User.all
-
         erb :'users/index'
       else
         redirect "/tasks/users/#{current_user.slug}"
@@ -48,7 +47,6 @@ class UsersController < ApplicationController
       supervisor_id = @user.supervisor_id
       @boss = supervisor_id == nil ? "no-one" : User.find(supervisor_id).name
       @current_user = current_user
-
       erb :'users/show'
     end
   end
@@ -62,7 +60,6 @@ class UsersController < ApplicationController
         @logged_in = logged_in?
         @user = User.find(params[:id])
         @users = User.all
-
         erb :'/users/edit'
       else
         redirect "/tasks/users/#{current_user.slug}"
@@ -86,7 +83,6 @@ class UsersController < ApplicationController
         user.save
         redirect '/users/index'
       else
-        @invalid_entry_message = false
         errors = user.errors.messages
         @invalid_entry_message = validation_messages(error)
         @current_user = current_user
@@ -104,7 +100,6 @@ class UsersController < ApplicationController
     else
       if current_user.is_administrator?
         user = User.find(params[:id])
-
         user.destroy
       end
       redirect '/users/index'
