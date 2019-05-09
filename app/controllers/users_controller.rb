@@ -22,77 +22,62 @@ class UsersController < ApplicationController
   end
 
   get '/users/index' do
-    if !logged_in?
-      redirect '/login'
+    redirect_if_not_logged_in
+    if current_user.is_administrator?
+      erb :'users/index'
     else
-      if current_user.is_administrator?
-        erb :'users/index'
-      else
-        redirect "/tasks/users/#{current_user.slug}"
-      end
+      redirect "/tasks/users/#{current_user.slug}"
     end
   end
 
   get '/users/:slug' do
-    if !logged_in?
-      redirect '/login'
-    else
-      @user = User.find_by_slug(params[:slug])
-      supervisor_id = @user.supervisor_id
-      @boss = supervisor_id == nil ? "no-one" : User.find(supervisor_id).name
-      erb :'users/show'
-    end
+    redirect_if_not_logged_in
+    @user = User.find_by_slug(params[:slug])
+    supervisor_id = @user.supervisor_id
+    @boss = supervisor_id == nil ? "no-one" : User.find(supervisor_id).name
+    erb :'users/show'
   end
 
   get '/users/:id/edit' do
-    if !logged_in?
-      redirect '/login'
+    redirect_if_not_logged_in
+    if current_user.is_administrator?
+      @user = User.find(params[:id])
+      erb :'/users/edit'
     else
-      if current_user.is_administrator?
-        @user = User.find(params[:id])
-        erb :'/users/edit'
-      else
-        redirect "/tasks/users/#{current_user.slug}"
-      end
+      redirect "/tasks/users/#{current_user.slug}"
     end
   end
 
   patch '/users/:id/edit' do
-    if !logged_in?
-      redirect '/login'
+    redirect_if_not_logged_in
+    user_hash = params[:user]
+    user = User.find(params[:id])
+    user.name = user_hash[:name]
+    user.email = user_hash[:email]
+    if user_hash[:supervisor_id] && user_hash[:supervisor_id] != ""
+      User.find(user_hash[:supervisor_id]).subordinates << user
     else
-      user_hash = params[:user]
-      user = User.find(params[:id])
-      user.name = user_hash[:name]
-      user.email = user_hash[:email]
-      if user_hash[:supervisor_id] && user_hash[:supervisor_id] != ""
-        User.find(user_hash[:supervisor_id]).subordinates << user
-      else
-        user.supervisor_id = nil
-      end
-      if user.valid?
-        user.save
-        redirect '/users/index'
-      else
-        errors = user.errors.messages
-        @invalid_entry_message = validation_messages(errors)
-        @user = User.find(params[:id])
-        erb :'/users/edit'
-      end
+      user.supervisor_id = nil
+    end
+    if user.valid?
+      user.save
+      redirect '/users/index'
+    else
+      errors = user.errors.messages
+      @invalid_entry_message = validation_messages(errors)
+      @user = User.find(params[:id])
+      erb :'/users/edit'
     end
   end
 
   post '/users/:id/delete' do
-    if !logged_in?
-      redirect '/login'
-    else
-      if current_user.is_administrator?
-        user = User.find(params[:id])
-        if user != current_user
-          user.destroy
-        end
+    redirect_if_not_logged_in
+    if current_user.is_administrator?
+      user = User.find(params[:id])
+      if user != current_user
+        user.destroy
       end
-      redirect '/users/index'
     end
+    redirect '/users/index'
   end
 end

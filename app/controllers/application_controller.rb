@@ -8,11 +8,8 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
-    if logged_in?
-      redirect "/tasks/users/#{current_user.slug}"
-    else
-      erb :index
-    end
+    redirect_if_not_logged_in
+    erb :index
   end
 
   get '/login' do
