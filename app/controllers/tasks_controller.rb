@@ -116,6 +116,13 @@ class TasksController < ApplicationController
     end
   end
 
+  patch "/tasks/:id/reject" do
+    task = Task.find(params[:id])
+    task.completed = false
+    task.save
+    redirect "tasks/users/#{current_user.slug}"
+  end
+
   post '/tasks/:id/delete' do
     if !logged_in?
       redirect '/login'

@@ -32,4 +32,8 @@
   <form method="GET" action="/notes/task/<%= @task.id %>/new">
     <input type="submit" value="Add Note" />
   </form>
+  <form method="POST" action="/tasks/<%= @task.id %>/reject">
+    <input type="hidden" id="hidden" name="_method" value="PATCH" />
+    <input type="submit" value="Reject Completed Task" />
+  </form>
 </div>
