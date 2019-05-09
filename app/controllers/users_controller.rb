@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
 
   get '/users/new' do
-    @users = User.all
     erb :'users/new'
   end
 
@@ -18,7 +17,6 @@ class UsersController < ApplicationController
     else
       errors = user.errors.messages
       @invalid_entry_message = validation_messages(errors)
-      @users = User.all
       erb :'users/new'
     end
   end
@@ -28,9 +26,6 @@ class UsersController < ApplicationController
       redirect '/login'
     else
       if current_user.is_administrator?
-        @current_user = current_user
-        @logged_in = logged_in?
-        @users = User.all
         erb :'users/index'
       else
         redirect "/tasks/users/#{current_user.slug}"
@@ -42,11 +37,9 @@ class UsersController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      @logged_in = logged_in?
       @user = User.find_by_slug(params[:slug])
       supervisor_id = @user.supervisor_id
       @boss = supervisor_id == nil ? "no-one" : User.find(supervisor_id).name
-      @current_user = current_user
       erb :'users/show'
     end
   end
@@ -56,10 +49,7 @@ class UsersController < ApplicationController
       redirect '/login'
     else
       if current_user.is_administrator?
-        @current_user = current_user
-        @logged_in = logged_in?
         @user = User.find(params[:id])
-        @users = User.all
         erb :'/users/edit'
       else
         redirect "/tasks/users/#{current_user.slug}"
@@ -86,10 +76,7 @@ class UsersController < ApplicationController
       else
         errors = user.errors.messages
         @invalid_entry_message = validation_messages(errors)
-        @current_user = current_user
-        @logged_in = logged_in?
         @user = User.find(params[:id])
-        @users = User.all
         erb :'/users/edit'
       end
     end

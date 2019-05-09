@@ -4,8 +4,6 @@ class NotesController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      @current_user = current_user
-      @logged_in = logged_in?
       @task_id = params[:task_id]
       erb :'/notes/new'
     end
@@ -25,8 +23,6 @@ class NotesController < ApplicationController
       else
         errors = note.errors.messages
         @failure_message = validation_messages(errors)
-        @current_user = current_user
-        @logged_in = logged_in?
         @task_id = params[:task_id]
         erb :'/notes/new'
       end
@@ -37,9 +33,7 @@ class NotesController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      @logged_in = logged_in?
       @note = Note.find(params[:id])
-      @current_user = current_user
       erb :'notes/show'
     end
   end
@@ -48,8 +42,6 @@ class NotesController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      @current_user = current_user
-      @logged_in = logged_in?
       @note = Note.find(params[:id])
       erb :'notes/edit'
     end
@@ -69,8 +61,6 @@ class NotesController < ApplicationController
       else
         errors = note.errors.messages
         @failure_message = validation_messages(error)
-        @current_user = current_user
-        @logged_in = logged_in?
         @task_id = params[:task_id]
         @note = note
         erb :"/notes/edit"
@@ -82,8 +72,6 @@ class NotesController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      @current_user = current_user
-      @logged_in = logged_in?
       @note = Note.find(params[:id])
       @task = @note.task
       @note.destroy

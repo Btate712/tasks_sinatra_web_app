@@ -6,7 +6,7 @@
 <form method="GET" action="/users/index">
   <input type="submit" value="Back to User List" />
 </form>
-<% if @current_user.is_administrator? %>
+<% if current_user.is_administrator? %>
   <form method="GET" action="/users/<%= @user.id %>/edit">
     <input type="submit" value="Edit User" />
   </form>

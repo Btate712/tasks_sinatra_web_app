@@ -9,11 +9,11 @@
 
     <div class="container">
       <%= yield %>
-      <% if @logged_in %>
+      <% if logged_in? %>
         <form class="align-left" method="GET" action="/logout">
           <input type="submit" value="Log Out">
         </form>
-        <% if @current_user.is_administrator? %>
+        <% if current_user.is_administrator? %>
           <form class="align-left" method="GET" action="/users/index">
             <input type="submit" value="Users Index">
           </form>

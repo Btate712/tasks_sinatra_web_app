@@ -4,9 +4,6 @@ class TasksController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      @logged_in = logged_in?
-      @users = User.all
-      @current_user = current_user
       erb :'/tasks/new'
     end
   end
@@ -29,9 +26,6 @@ class TasksController < ApplicationController
       else
         errors = task.errors.messages
         @failure_message = validation_messages(errors)
-        @users = User.all
-        @logged_in = logged_in?
-        @current_user = current_user
         erb :'/tasks/new'
       end
     end
@@ -41,8 +35,6 @@ class TasksController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      @logged_in = logged_in?
-      @current_user = current_user
       erb :'/tasks/index'
     end
   end
@@ -51,8 +43,6 @@ class TasksController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      @logged_in = logged_in?
-      @current_user = current_user
       @task = Task.find(params[:id])
       erb :'/tasks/show'
     end
@@ -62,12 +52,8 @@ class TasksController < ApplicationController
     if !logged_in?
       redirect '/login'
     else
-      @logged_in = logged_in?
-      @user = current_user
       @task = Task.find(params[:id])
       if current_user == @task.creator
-        @users = User.all
-        @current_user = current_user
         erb :"/tasks/edit"
       else
         @failure_message="Tasks can only be edited by the user that created them."
@@ -95,11 +81,7 @@ class TasksController < ApplicationController
       else
         errors = task.errors.messages
         @failure_message = validation_messages(errors)
-        @logged_in = logged_in?
-        @users = User.all
         @task = Task.find(params[:id])
-        @current_user = current_user
-
         erb :"/tasks/edit"
       end
     end
@@ -130,8 +112,6 @@ class TasksController < ApplicationController
       task = Task.find(params[:id])
       if task.creator == current_user
         Task.find(params[:id]).destroy
-        @logged_in = logged_in?
-        @current_user = current_user
       else
         @failure_message = "Only the creator of a task may delete that task."
       end

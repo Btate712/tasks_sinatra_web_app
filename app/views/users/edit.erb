@@ -17,7 +17,7 @@
     <label for="supervisor_name">Supervisor's Name:</label>
     <select name="user[supervisor_id]" id="supervisor_id">
       <option value="<%= nil %>">Supervisor is not in system</option>
-      <% @users.each do |user| %>
+      <% users.each do |user| %>
         <option value="<%= user.id %>"><%= user.name %></option>
       <% end %>
     </select>

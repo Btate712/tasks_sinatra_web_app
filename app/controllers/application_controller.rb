@@ -46,7 +46,7 @@ class ApplicationController < Sinatra::Base
     end
 
     def in_use?(username)
-      !!User.find_by(username: username) 
+      !!User.find_by(username: username)
     end
 
     def capitalize(input_string)
@@ -62,6 +62,10 @@ class ApplicationController < Sinatra::Base
         failure_message << (field + " " + message.first + ".\n")
       end
     failure_message
+    end
+
+    def users
+      User.all
     end
   end
 end
