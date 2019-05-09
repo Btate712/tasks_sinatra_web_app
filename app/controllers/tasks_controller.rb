@@ -1,11 +1,8 @@
 class TasksController < ApplicationController
 
   get '/tasks/new' do
-    if !logged_in?
-      redirect '/login'
-    else
-      erb :'/tasks/new'
-    end
+    redirect_if_not_logged_in
+    erb :'/tasks/new'
   end
 
   post '/tasks/new' do
@@ -57,14 +54,15 @@ class TasksController < ApplicationController
         erb :"/tasks/edit"
       else
         @failure_message="Tasks can only be edited by the user that created them."
-        erb :"tasks/users/#{current_user.slug}"
+        redirect "tasks/users/#{current_user.slug}"
       end
     end
   end
 
   patch '/tasks/:id/edit' do
     @failure_message = false
-    if !logged_in?
+    task = Task.find(params[:id])
+    if !logged_in? && task.creator != current_user
       redirect '/login'
     else
       assignee = User.find_by(:name => params[:assign_to])
@@ -73,7 +71,6 @@ class TasksController < ApplicationController
       task.long_description = params[:long_description] if params[:long_description]
       task.due_date = params[:due_date] if params[:due_date]
       task.owner_id = assignee.id
-      task.creator_id = current_user.id
 
       if task.valid?
         task.save
