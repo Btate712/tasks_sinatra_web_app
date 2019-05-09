@@ -101,7 +101,9 @@ class UsersController < ApplicationController
     else
       if current_user.is_administrator?
         user = User.find(params[:id])
-        user.destroy
+        if user != current_user
+          user.destroy
+        end
       end
       redirect '/users/index'
     end
