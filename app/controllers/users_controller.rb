@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     if current_user.is_administrator?
       erb :'users/index'
     else
-      redirect "/tasks/users/#{current_user.slug}"
+      redirect "/tasks/index"
     end
   end
 
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       erb :'/users/edit'
     else
-      redirect "/tasks/users/#{current_user.slug}"
+      redirect "/tasks/index"
     end
   end
 

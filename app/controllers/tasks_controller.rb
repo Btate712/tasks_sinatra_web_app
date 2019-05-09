@@ -25,7 +25,7 @@ class TasksController < ApplicationController
     end
   end
 
-  get '/tasks/users/:slug' do
+  get '/tasks/index' do
     redirect_if_not_logged_in
     erb :'/tasks/index'
   end
@@ -43,7 +43,7 @@ class TasksController < ApplicationController
       erb :"/tasks/edit"
     else
       @failure_message="Tasks can only be edited by the user that created them."
-      redirect "tasks/users/#{current_user.slug}"
+      redirect "tasks/index"
     end
   end
 
@@ -77,14 +77,14 @@ class TasksController < ApplicationController
     task = Task.find(params[:task].key("on"))
     task.completed = true
     task.save
-    redirect "tasks/users/#{current_user.slug}"
+    redirect "tasks/index"
   end
 
   patch "/tasks/:id/reject" do
     task = Task.find(params[:id])
     task.completed = false
     task.save
-    redirect "tasks/users/#{current_user.slug}"
+    redirect "tasks/index"
   end
 
   post '/tasks/:id/delete' do
