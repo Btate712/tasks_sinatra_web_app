@@ -74,8 +74,9 @@ class NotesController < ApplicationController
     else
       @note = Note.find(params[:id])
       @task = @note.task
-      @note.destroy
-
+      if @note.user == current_user
+        @note.destroy
+      end
       erb :'/tasks/show'
     end
   end
